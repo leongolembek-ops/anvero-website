@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 const CONFIG = {
   brand: "ANVERO",
   claim: "Automatisiert, was zwischen Anfrage und Auftrag liegt.",
