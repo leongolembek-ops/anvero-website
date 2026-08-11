@@ -31,7 +31,7 @@ function Button({ children, href = "#demo", secondary = false, icon = "arrow", c
 
 function StatusPill({ children, tone = "amber" }) {
   const tones = {
-    amber: "border-[#e5c47a] bg-[#fff8e8] text-[#79591c]",
+    amber: "border-[#a9d5c4] bg-[#effaf5] text-[#17654c]",
     green: "border-[#a9d5c4] bg-[#effaf5] text-[#17654c]",
     blue: "border-[#b8d6e5] bg-[#f0f8fb] text-[#285f78]",
   };
@@ -41,17 +41,17 @@ function StatusPill({ children, tone = "amber" }) {
 const processSteps = [
   { key: "email", short: "E-Mail", title: "E-Mail eingegangen", icon: "mail", tone: "slate", detail: <><p className="text-sm leading-6 text-slate-600">„Wir benötigen eine regelmäßige Reinigung für unser Bürogebäude in Hamburg. Die Fläche beträgt etwa 1.200 m², Reinigung dreimal wöchentlich …“</p><div className="mt-3 flex flex-wrap gap-2 text-[10px] text-slate-500"><span className="rounded-md bg-slate-50 px-2 py-1">Müller Immobilien</span><span className="rounded-md bg-slate-50 px-2 py-1">09:14 Uhr</span></div></> },
   { key: "data", short: "Daten", title: "Daten extrahiert", icon: "search", tone: "green", detail: <div className="grid grid-cols-2 gap-2">{[["Objekt","Bürogebäude"],["Fläche","1.200 m²"],["Ort","Hamburg"],["Intervall","3× wöchentlich"]].map(([k,v]) => <div key={k} className="rounded-lg bg-slate-50 px-3 py-2"><div className="text-[9px] uppercase tracking-wider text-slate-400">{k}</div><div className="mt-0.5 text-[11px] font-semibold text-slate-700">{v}</div></div>)}</div> },
-  { key: "missing", short: "Prüfung", title: "Fehlende Angaben erkannt", icon: "clock", tone: "amber", detail: <div className="rounded-lg border border-[#ead8ac] bg-[#fffbf1] p-3"><p className="text-[11px] font-bold text-slate-800">Noch offen: Reinigungszeiten</p><p className="mt-1 text-[11px] text-slate-600">Die Angabe wird für die Kalkulation benötigt.</p></div> },
-  { key: "question", short: "Rückfrage", title: "Rückfrage vorbereitet", icon: "send", tone: "amber", detail: <div className="rounded-lg border border-[#ead8ac] bg-[#fffbf1] p-3"><p className="text-[11px] font-semibold text-slate-700">„Welche Reinigungszeiten sind für Ihr Objekt gewünscht?“</p><p className="mt-2 text-[10px] font-bold text-[#79591c]">Versand nach Ihren Regeln</p></div> },
+  { key: "missing", short: "Prüfung", title: "Fehlende Angaben erkannt", icon: "clock", tone: "amber", detail: <div className="rounded-lg border border-[#b9ddd3] bg-[#f2faf8] p-3"><p className="text-[11px] font-bold text-slate-800">Noch offen: Reinigungszeiten</p><p className="mt-1 text-[11px] text-slate-600">Die Angabe wird für die Kalkulation benötigt.</p></div> },
+  { key: "question", short: "Rückfrage", title: "Rückfrage vorbereitet", icon: "send", tone: "amber", detail: <div className="rounded-lg border border-[#b9ddd3] bg-[#f2faf8] p-3"><p className="text-[11px] font-semibold text-slate-700">„Welche Reinigungszeiten sind für Ihr Objekt gewünscht?“</p><p className="mt-2 text-[10px] font-bold text-[#17654c]">Versand nach Ihren Regeln</p></div> },
   { key: "calc", short: "Kalkulation", title: "Kalkulation vorbereitet", icon: "settings", tone: "blue", detail: <div className="grid grid-cols-2 gap-2">{[["Fläche","berücksichtigt"],["Leistung","zugeordnet"],["Personal","berechnet"],["Material","berücksichtigt"]].map(([k,v]) => <div key={k} className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2"><div className="text-[9px] uppercase tracking-wider text-slate-400">{k}</div><div className="mt-0.5 text-[11px] font-semibold text-slate-700">{v}</div></div>)}</div> },
-  { key: "draft", short: "Entwurf", title: "Angebotsentwurf bereit", icon: "file", tone: "green", detail: <><div className="flex items-center justify-between rounded-lg border border-[#b9ddd3] bg-white px-3 py-2"><span className="text-[10px] font-semibold text-slate-500">Versand</span><span className="text-[10px] font-bold text-[#79591c]">bis Freigabe gesperrt</span></div><button type="button" className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#176b68] px-3 text-xs font-bold text-white hover:bg-[#125c59] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#176b68]/20"><Icon name="shield" size={15}/>Angebot prüfen und freigeben</button></> },
+  { key: "draft", short: "Entwurf", title: "Angebotsentwurf bereit", icon: "file", tone: "green", detail: <><div className="flex items-center justify-between rounded-lg border border-[#b9ddd3] bg-white px-3 py-2"><span className="text-[10px] font-semibold text-slate-500">Versand</span><span className="text-[10px] font-bold text-[#17654c]">bis Freigabe gesperrt</span></div><button type="button" className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#176b68] px-3 text-xs font-bold text-white hover:bg-[#125c59] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#176b68]/20"><Icon name="shield" size={15}/>Angebot prüfen und freigeben</button></> },
 ];
 
 function toneClasses(tone, active = false) {
   const base = {
     slate: "bg-slate-50 text-slate-700",
     green: "bg-[#e5f1ef] text-[#176b68]",
-    amber: "bg-[#fff0c8] text-[#79591c]",
+    amber: "bg-[#e5f1ef] text-[#176b68]",
     blue: "bg-[#f0f8fb] text-[#285f78]",
   }[tone];
   return active ? `${base} ring-2 ring-[#176b68]/20` : base;
