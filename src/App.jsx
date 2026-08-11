@@ -1,0 +1,247 @@
+import { useEffect, useState } from 'react';
+
+const CONFIG = {
+  brand: "ANVERO",
+  claim: "Automatisiert, was zwischen Anfrage und Auftrag liegt.",
+  category: "Angebotsautomatisierung für Gebäudereinigungen",
+  demoEmail: "",
+  nav: [
+    { label: "So funktioniert’s", href: "#workflow" },
+    { label: "Kontrolle", href: "#kontrolle" },
+    { label: "Für Gebäudereinigungen", href: "#branche" },
+    { label: "FAQ", href: "#faq" },
+  ],
+};
+
+const Icon = ({ name, size = 20, className = "" }) => {
+  const paths = {
+    arrow: <><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></>,
+    down: <><path d="m6 9 6 6 6-6"/></>,
+    check: <path d="m5 12 4 4L19 6"/>,
+    mail: <><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></>,
+    search: <><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></>,
+    file: <><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v5h5"/><path d="M9 13h6M9 17h6"/></>,
+    user: <><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0 1 16 0"/></>,
+    shield: <><path d="M12 3 4.5 6v5.5c0 5 3.2 8.1 7.5 9.5 4.3-1.4 7.5-4.5 7.5-9.5V6z"/><path d="m8.5 12 2.3 2.3 4.7-5"/></>,
+    clock: <><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></>,
+    layers: <><path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></>,
+    settings: <><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6v-.2h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z"/></>,
+    send: <><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></>,
+    refresh: <><path d="M20 7h-5V2"/><path d="M20 7a8 8 0 1 0 1 7"/></>,
+    calendar: <><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></>,
+    menu: <><path d="M4 7h16M4 12h16M4 17h16"/></>,
+    close: <><path d="m6 6 12 12M18 6 6 18"/></>,
+    sparkle: <><path d="m12 3 1.2 4.3L17.5 9l-4.3 1.7L12 15l-1.2-4.3L6.5 9l4.3-1.7z"/><path d="m19 15 .6 2.1 2.1.9-2.1.9L19 21l-.6-2.1-2.1-.9 2.1-.9z"/></>,
+  };
+  return <svg aria-hidden="true" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>{paths[name]}</svg>;
+};
+
+function Button({ children, href = "#demo", secondary = false, className = "" }) {
+  return (
+    <a href={href} className={`group inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#176b68]/20 ${secondary ? "border border-slate-300 bg-white text-slate-800 hover:border-slate-400 hover:bg-slate-50" : "bg-[#176b68] text-white shadow-[0_8px_22px_rgba(23,107,104,.2)] hover:-translate-y-0.5 hover:bg-[#125c59]"} ${className}`}>
+      {children}<Icon name={secondary ? "down" : "arrow"} size={17} className="transition-transform group-hover:translate-x-0.5" />
+    </a>
+  );
+}
+
+function Header() {
+  const [open, setOpen] = useState(false);
+  return (
+    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-[#f8faf9]/90 backdrop-blur-xl">
+      <div className="mx-auto flex h-[72px] max-w-[1180px] items-center justify-between px-5 lg:px-8">
+        <a href="#top" aria-label="ANVERO Startseite" className="flex items-center gap-3 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#176b68]/20 rounded-lg">
+          <div className="grid h-9 w-9 place-items-center rounded-[10px] bg-[#123f3d] text-white shadow-sm">
+            <span className="font-['DM_Sans'] text-sm font-black tracking-[-0.08em]">AV</span>
+          </div>
+          <div><div className="text-[15px] font-extrabold tracking-[.14em] text-slate-950">ANVERO</div><div className="hidden text-[10px] text-slate-500 sm:block">Anfrage bis Auftrag</div></div>
+        </a>
+        <nav aria-label="Hauptnavigation" className="hidden items-center gap-7 lg:flex">
+          {CONFIG.nav.map((item) => <a key={item.href} href={item.href} className="text-sm font-medium text-slate-600 transition hover:text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#176b68]/20 rounded">{item.label}</a>)}
+        </nav>
+        <div className="hidden lg:block"><Button href="#demo" className="min-h-10 px-4 py-2">Kostenlose Live-Demo</Button></div>
+        <button onClick={() => setOpen(!open)} aria-expanded={open} aria-label={open ? "Menü schließen" : "Menü öffnen"} className="grid h-11 w-11 place-items-center rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#176b68]/20 lg:hidden"><Icon name={open ? "close" : "menu"} /></button>
+      </div>
+      {open && <nav aria-label="Mobile Navigation" className="border-t border-slate-200 bg-white px-5 py-5 lg:hidden">
+        <div className="mx-auto flex max-w-[1180px] flex-col gap-2">
+          {CONFIG.nav.map((item) => <a key={item.href} href={item.href} onClick={() => setOpen(false)} className="rounded-lg px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50">{item.label}</a>)}
+          <Button href="#demo" className="mt-2 w-full">Kostenlose Live-Demo buchen</Button>
+        </div>
+      </nav>}
+    </header>
+  );
+}
+
+function StatusPill({ children, tone = "amber" }) {
+  const tones = { amber: "border-[#e5c47a] bg-[#fff8e8] text-[#79591c]", green: "border-[#a9d5c4] bg-[#effaf5] text-[#17654c]", blue: "border-[#b8d6e5] bg-[#f0f8fb] text-[#285f78]" };
+  return <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-bold ${tones[tone]}`}><span className="h-1.5 w-1.5 rounded-full bg-current" />{children}</span>;
+}
+
+function ProductWorkspace() {
+  const [stage, setStage] = useState(0);
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (media.matches) return;
+    const timer = setInterval(() => setStage((s) => (s + 1) % 4), 2600);
+    return () => clearInterval(timer);
+  }, []);
+  const tabs = ["Anfrage", "Rückfrage", "Kalkulation", "Freigabe"];
+  return (
+    <div className="relative mx-auto w-full max-w-[650px]">
+      <div className="absolute -inset-5 -z-10 rounded-[40px] bg-[#cfe6e1]/35 blur-2xl" />
+      <div className="overflow-hidden rounded-[22px] border border-slate-300/80 bg-white shadow-[0_28px_70px_rgba(23,48,46,.14),0_4px_12px_rgba(15,23,42,.05)]">
+        <div className="flex items-center justify-between border-b border-slate-200 bg-[#f8faf9] px-4 py-3 sm:px-5">
+          <div className="flex items-center gap-2"><div className="flex gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-slate-300"/><span className="h-2.5 w-2.5 rounded-full bg-slate-300"/><span className="h-2.5 w-2.5 rounded-full bg-slate-300"/></div><span className="ml-2 text-[11px] font-semibold text-slate-500">Angebotsvorgang · Demo-Daten</span></div>
+          <StatusPill>Prüfung offen</StatusPill>
+        </div>
+        <div className="border-b border-slate-200 px-4 pt-4 sm:px-5">
+          <div className="mb-3 flex items-start justify-between gap-4"><div><p className="text-[11px] font-bold uppercase tracking-[.14em] text-[#176b68]">Unterhaltsreinigung</p><h3 className="mt-1 font-['DM_Sans'] text-lg font-bold tracking-tight text-slate-950">Bürogebäude Hamburg</h3></div><span className="font-mono text-[10px] text-slate-400">VORGANG #1048</span></div>
+          <div className="flex gap-1 overflow-x-auto" role="tablist" aria-label="Prozessschritte">
+            {tabs.map((tab, i) => <button key={tab} onClick={() => setStage(i)} role="tab" aria-selected={stage === i} className={`whitespace-nowrap border-b-2 px-3 py-2 text-xs font-semibold transition ${stage === i ? "border-[#176b68] text-[#176b68]" : "border-transparent text-slate-400 hover:text-slate-700"}`}>{tab}</button>)}
+          </div>
+        </div>
+        <div className="min-h-[402px] p-4 sm:p-5">
+          <div className="grid gap-4 md:grid-cols-[1.03fr_.97fr]">
+            <div className="space-y-4">
+              <div className={`rounded-xl border p-4 transition-all duration-500 ${stage === 0 ? "border-[#83b9b4] bg-[#f2faf8] shadow-sm" : "border-slate-200 bg-slate-50/60"}`}>
+                <div className="mb-3 flex items-center justify-between"><div className="flex items-center gap-2 text-xs font-bold text-slate-700"><Icon name="mail" size={16}/>Kundenanfrage</div><span className="text-[10px] text-slate-400">09:14 Uhr</span></div>
+                <p className="text-[13px] leading-5 text-slate-600">„Wir benötigen eine regelmäßige Reinigung für unser Bürogebäude in Hamburg. Die Fläche beträgt etwa 1.200 m², Reinigung dreimal wöchentlich …“</p>
+              </div>
+              <div className="rounded-xl border border-slate-200 bg-white p-4">
+                <div className="mb-3 flex items-center gap-2 text-xs font-bold text-slate-700"><Icon name="search" size={16}/>Erkannte Angaben</div>
+                <div className="grid grid-cols-2 gap-2">
+                  {[['Objekt','Bürogebäude'],['Fläche','1.200 m²'],['Ort','Hamburg'],['Frequenz','3× wöchentlich']].map(([k,v]) => <div key={k} className="rounded-lg bg-slate-50 px-3 py-2"><div className="text-[9px] uppercase tracking-wider text-slate-400">{k}</div><div className="mt-0.5 text-[11px] font-semibold text-slate-700">{v}</div></div>)}
+                </div>
+              </div>
+              <div className={`rounded-xl border p-4 transition-all duration-500 ${stage === 1 ? "border-[#83b9b4] bg-[#f2faf8] shadow-sm" : "border-[#ead8ac] bg-[#fffbf1]"}`}>
+                <div className="mb-2 flex items-center justify-between"><span className="text-xs font-bold text-slate-700">Fehlende Angabe</span><StatusPill tone={stage > 1 ? "green" : "amber"}>{stage > 1 ? "Beantwortet" : "Rückfrage"}</StatusPill></div>
+                <p className="text-[12px] text-slate-600">Welche Reinigungszeiten sind gewünscht?</p>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <div className={`rounded-xl border p-4 transition-all duration-500 ${stage === 2 ? "border-[#83b9b4] bg-[#f2faf8] shadow-sm" : "border-slate-200 bg-white"}`}>
+                <div className="mb-3 flex items-center gap-2 text-xs font-bold text-slate-700"><Icon name="settings" size={16}/>Kalkulation</div>
+                <div className="space-y-2.5 text-[11px] text-slate-600">
+                  {["Leistungen zusammengestellt","Kalkulationsregeln angewendet","Dokument vorbereitet"].map((x,i) => <div key={x} className="flex items-center gap-2"><span className="grid h-5 w-5 place-items-center rounded-full bg-[#e6f3f0] text-[#176b68]"><Icon name="check" size={12}/></span>{x}</div>)}
+                </div>
+              </div>
+              <div className={`rounded-xl border p-4 transition-all duration-500 ${stage === 3 ? "border-[#83b9b4] bg-[#f2faf8] shadow-sm" : "border-slate-200 bg-[#fbfcfc]"}`}>
+                <div className="mb-4 flex items-start justify-between gap-3"><div><div className="text-[10px] uppercase tracking-wider text-slate-400">Angebotsentwurf</div><div className="mt-1 text-sm font-bold text-slate-900">Unterhaltsreinigung</div></div><Icon name="file" size={22} className="text-slate-400"/></div>
+                <div className="mb-4 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-3"><div className="flex justify-between text-[10px] text-slate-400"><span>Preisvorschlag</span><span>Demo-Daten</span></div><div className="mt-1 text-lg font-extrabold text-slate-900">nach Ihren Regeln</div></div>
+                <StatusPill>Prüfung erforderlich</StatusPill>
+                <button type="button" className="mt-4 flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#176b68] px-4 text-xs font-bold text-white transition hover:bg-[#125c59] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#176b68]/20"><Icon name="shield" size={16}/>Prüfen und freigeben</button>
+              </div>
+              <div className="flex items-center gap-2 rounded-lg bg-slate-900 px-3 py-2.5 text-[10px] leading-4 text-slate-200"><Icon name="refresh" size={15} className="shrink-0 text-[#8ed0c9]"/>Versand nach Freigabe · Follow-up nach Regeln</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p className="mt-4 px-2 text-center text-[11px] leading-5 text-slate-500">Beispielhafte Oberfläche mit Demo-Daten – keine echte Kundenanfrage.</p>
+    </div>
+  );
+}
+
+function Hero() {
+  return (
+    <section id="top" className="relative overflow-hidden border-b border-slate-200 bg-[#f8faf9]">
+      <div className="absolute inset-0 -z-0 opacity-50" style={{backgroundImage:'linear-gradient(#dfe7e5 1px, transparent 1px), linear-gradient(90deg, #dfe7e5 1px, transparent 1px)',backgroundSize:'48px 48px',maskImage:'linear-gradient(to bottom,black,transparent 80%)'}} />
+      <div className="relative mx-auto grid max-w-[1180px] items-center gap-14 px-5 py-16 sm:py-20 lg:grid-cols-[.82fr_1.18fr] lg:px-8 lg:py-24">
+        <div>
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#b8d6d1] bg-white/80 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[.11em] text-[#176b68]"><Icon name="layers" size={14}/>{CONFIG.category}</div>
+          <h1 className="font-['DM_Sans'] text-[47px] font-black leading-[.97] tracking-[-.055em] text-[#102322] sm:text-[64px] lg:text-[68px]">Mehr Angebote.<br/><span className="text-[#176b68]">Weniger Büroarbeit.</span></h1>
+          <p className="mt-7 max-w-[610px] text-[17px] leading-7 text-slate-600">ANVERO strukturiert Kundenanfragen, fragt fehlende Angaben automatisch nach, verarbeitet Antworten und bereitet Angebotsentwürfe nach Ihren Kalkulationsregeln vor. Ihr Team prüft und gibt jedes Angebot frei.</p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button href="#demo">Kostenlose Live-Demo buchen</Button><Button href="#workflow" secondary>Workflow ansehen</Button></div>
+          <div className="mt-7 flex max-w-[560px] items-start gap-3 border-l-2 border-[#176b68] pl-4"><Icon name="shield" size={21} className="mt-0.5 shrink-0 text-[#176b68]"/><p className="text-sm leading-6 text-slate-600"><strong className="text-slate-900">Routine läuft nach Ihren Regeln.</strong> Angebote werden nur nach der Freigabe Ihres Teams versendet.</p></div>
+          <p className="mt-8 text-xs font-semibold uppercase tracking-[.16em] text-slate-400">{CONFIG.claim}</p>
+        </div>
+        <ProductWorkspace />
+      </div>
+    </section>
+  );
+}
+
+const manualTasks = ["E-Mail lesen", "Angaben herausfiltern", "Fehlendes erkennen", "Rückfragen formulieren", "Antworten zuordnen", "Leistungen zusammenstellen", "Preise kalkulieren", "Angebot vorbereiten", "Dokument prüfen", "Später nachfassen"];
+
+function Problem() {
+  return <section className="bg-white py-20 sm:py-28"><div className="mx-auto max-w-[1080px] px-5 lg:px-8"><div className="grid gap-12 lg:grid-cols-[.85fr_1.15fr] lg:gap-20"><div><p className="section-kicker">Der heutige Ablauf</p><h2 className="section-title">Eine Anfrage ist selten nur eine E-Mail.</h2><p className="section-copy">Dahinter stehen Flächen, Reinigungsarten, Frequenzen, Zeiten, Starttermine und Kalkulationsregeln. Diese Informationen jedes Mal manuell zusammenzutragen, kostet Zeit und erzeugt Abstimmungsaufwand.</p></div><div className="relative"><div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 sm:grid-cols-2">{manualTasks.map((task,i)=><div key={task} className="flex min-h-[72px] items-center gap-3 bg-[#fbfcfc] px-4 py-3"><span className="font-mono text-[10px] text-slate-400">{String(i+1).padStart(2,'0')}</span><span className="text-sm font-semibold text-slate-700">{task}</span></div>)}</div><div className="mt-5 rounded-xl bg-[#102c2b] p-5 text-white"><p className="text-sm leading-6"><strong>Das Problem ist nicht eine einzelne Aufgabe.</strong> Es ist die Summe vieler kleiner manueller Arbeitsschritte.</p></div></div></div></div></section>;
+}
+
+const workflow = [
+  ["mail","Anfrage kommt an","Eine Kundenanfrage geht per E-Mail ein."],
+  ["search","Angaben werden strukturiert","Objekt-, Leistungs- und Kundendaten werden erkannt und zugeordnet."],
+  ["send","Fehlendes wird nachgefragt","Rückfragen können nach festgelegten Regeln automatisch versendet werden."],
+  ["refresh","Antworten werden verarbeitet","Kundenantworten fließen zurück in den bestehenden Vorgang."],
+  ["settings","Regeln werden angewendet","Ihre Preis-, Leistungs- und Kalkulationsregeln bilden die Grundlage."],
+  ["file","Entwurf wird erstellt","ANVERO bereitet das Angebotsdokument für die Prüfung vor."],
+  ["user","Ihr Team gibt frei","Ein berechtigter Mitarbeiter kontrolliert und entscheidet."],
+  ["shield","Angebot wird versendet","Erst nach der Freigabe verlässt das Angebot das System."],
+  ["clock","Follow-up läuft weiter","Nach dem Versand kann automatisch nach Ihren Regeln nachgefasst werden."],
+];
+
+function Workflow() {
+  return <section id="workflow" className="border-y border-slate-200 bg-[#f2f6f5] py-20 sm:py-28"><div className="mx-auto max-w-[1180px] px-5 lg:px-8"><div className="mb-14 max-w-2xl"><p className="section-kicker">Ein Vorgang statt vieler Einzelschritte</p><h2 className="section-title">Von der Anfrage bis zum Follow-up.</h2><p className="section-copy">Aus unstrukturierten Nachrichten entsteht ein nachvollziehbarer Angebotsvorgang – mit einem verbindlichen Kontrollpunkt vor dem Versand.</p></div><div className="relative"><div className="absolute bottom-8 left-[23px] top-8 hidden w-px bg-[#aac8c3] md:block"/><div className="grid gap-3 md:grid-cols-3">{workflow.map(([icon,title,text],i)=><article key={title} className={`group relative rounded-2xl border p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-lg ${i===6 ? 'border-[#d9b866] bg-[#fff9ea]' : i===7 ? 'border-[#8fc6b2] bg-[#effaf5]' : 'border-slate-200 bg-white'}`}><div className="mb-5 flex items-center justify-between"><span className={`grid h-10 w-10 place-items-center rounded-xl ${i===6 ? 'bg-[#f4dfaa] text-[#725415]' : i===7 ? 'bg-[#cdebdc] text-[#17654c]' : 'bg-[#e5f1ef] text-[#176b68]'}`}><Icon name={icon}/></span><span className="font-mono text-[10px] font-bold tracking-[.14em] text-slate-400">{String(i+1).padStart(2,'0')}</span></div><h3 className="text-[15px] font-bold text-slate-900">{title}</h3><p className="mt-2 text-[13px] leading-5 text-slate-550">{text}</p>{i===6&&<div className="mt-4 text-[10px] font-bold uppercase tracking-wider text-[#79591c]">Verbindlicher Kontrollpunkt</div>}</article>)}</div></div></div></section>;
+}
+
+function Control() {
+  const steps = [["sparkle","ANVERO erstellt","Entwurf vorbereitet"],["user","Mitarbeiter prüft","Inhalte kontrolliert"],["shield","Mitarbeiter gibt frei","Entscheidung getroffen"],["send","Angebot wird versendet","Erst nach Freigabe"]];
+  return <section id="kontrolle" className="bg-[#102c2b] py-20 text-white sm:py-28"><div className="mx-auto max-w-[1120px] px-5 lg:px-8"><div className="grid items-center gap-14 lg:grid-cols-[.9fr_1.1fr] lg:gap-20"><div><p className="mb-4 text-xs font-bold uppercase tracking-[.16em] text-[#8ed0c9]">Kontrolle als Produktprinzip</p><h2 className="font-['DM_Sans'] text-4xl font-black leading-[1.03] tracking-[-.04em] sm:text-5xl">Routine läuft automatisch. Angebote bleiben unter Ihrer Kontrolle.</h2><p className="mt-6 text-base leading-7 text-slate-300">Rückfragen und Follow-ups können nach festgelegten Regeln automatisch versendet werden. Ein Angebot verlässt ANVERO dagegen erst, nachdem ein berechtigter Mitarbeiter es geprüft und freigegeben hat.</p><div className="mt-7 flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4"><Icon name="shield" className="shrink-0 text-[#8ed0c9]"/><p className="text-sm font-semibold text-white">Angebote und wichtige Entscheidungen bleiben beim Menschen.</p></div></div><div className="relative space-y-3">{steps.map(([icon,title,sub],i)=><div key={title} className={`relative flex items-center gap-4 rounded-2xl border p-4 ${i===2 ? 'border-[#e2bd60] bg-[#e2bd60]/10' : 'border-white/10 bg-white/[.04]'}`}><span className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl ${i===2 ? 'bg-[#e2bd60] text-[#17302e]' : 'bg-[#1d4744] text-[#8ed0c9]'}`}><Icon name={icon}/></span><div><h3 className="text-sm font-bold">{title}</h3><p className="mt-0.5 text-xs text-slate-400">{sub}</p></div><span className="ml-auto font-mono text-[10px] text-slate-500">0{i+1}</span>{i<steps.length-1&&<div className="absolute -bottom-3 left-[37px] h-3 w-px bg-white/20"/>}</div>)}</div></div></div></section>;
+}
+
+const specialization = ["Objekt- und Leistungsdaten","Reinigungsarten und Frequenzen","Flächen und Pflichtangaben","Individuelle Kalkulationsregeln","Strukturierte Rückfragen","Eigene Angebotsdokumente","Verbindliche Mitarbeiterfreigabe","Automatische Follow-ups"];
+
+function Specialization() {
+ return <section id="branche" className="bg-white py-20 sm:py-28"><div className="mx-auto max-w-[1120px] px-5 lg:px-8"><div className="grid gap-14 lg:grid-cols-[.95fr_1.05fr] lg:gap-20"><div><p className="section-kicker">Für Ihre Branche eingerichtet</p><h2 className="section-title">Keine allgemeine KI für beliebige Büroaufgaben.</h2><p className="section-copy">ANVERO bildet den Angebotsprozess von Gebäudereinigungen strukturiert ab – von der Kundenanfrage über automatische Rückfragen und individuelle Kalkulationsregeln bis zum geprüften Angebotsentwurf und anschließenden Follow-up.</p><p className="mt-6 border-l-2 border-[#176b68] pl-4 text-sm font-bold leading-6 text-slate-800">Mit Ihren Leistungen, Ihren Pflichtangaben, Ihren Kalkulationsregeln, Ihren Dokumenten und Ihrer Freigabe.</p></div><div><div className="grid gap-3 sm:grid-cols-2">{specialization.map((x)=><div key={x} className="flex min-h-[64px] items-center gap-3 rounded-xl border border-slate-200 bg-[#fbfcfc] px-4"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-[#e5f1ef] text-[#176b68]"><Icon name="check" size={15}/></span><span className="text-[13px] font-semibold text-slate-700">{x}</span></div>)}</div><div className="mt-5 rounded-xl border border-[#c7ded9] bg-[#f2faf8] p-5"><p className="text-[13px] leading-6 text-slate-600"><strong className="text-slate-900">Der dargestellte Ablauf ist ein Beispiel.</strong> Leistungen, Pflichtangaben, Kalkulationsregeln, Freigaben und Dokumente werden passend zum Angebotsprozess Ihres Unternehmens eingerichtet.</p></div></div></div></div></section>;
+}
+
+function CalendarPlaceholder() {
+  const days = ['Mo','Di','Mi','Do','Fr'];
+  return <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_18px_45px_rgba(15,23,42,.08)]"><div className="border-b border-slate-200 p-5"><div className="flex items-center justify-between"><div><p className="text-xs font-bold uppercase tracking-[.12em] text-[#176b68]">Termin auswählen</p><h3 className="mt-1 text-lg font-bold text-slate-950">Kostenlose Live-Demo</h3></div><Icon name="calendar" className="text-[#176b68]"/></div></div><div className="grid min-h-[330px] md:grid-cols-[.85fr_1.15fr]"><div className="border-b border-slate-200 p-5 md:border-b-0 md:border-r"><div className="mb-4 flex items-center justify-between"><button disabled className="text-slate-300" aria-label="Vorheriger Monat">‹</button><span className="text-sm font-bold text-slate-800">Kalendervorschau</span><button disabled className="text-slate-300" aria-label="Nächster Monat">›</button></div><div className="grid grid-cols-5 gap-1 text-center">{days.map(d=><span key={d} className="py-2 text-[10px] font-bold text-slate-400">{d}</span>)}{Array.from({length:20},(_,i)=><span key={i} className={`grid aspect-square place-items-center rounded-lg text-[11px] ${[6,7,11,13].includes(i)?'bg-[#e5f1ef] font-bold text-[#176b68]':'text-slate-300'}`}>{i+1}</span>)}</div></div><div className="flex flex-col items-center justify-center p-7 text-center"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#e5f1ef] text-[#176b68]"><Icon name="calendar"/></span><h4 className="mt-4 text-base font-bold text-slate-900">Direkte Terminbuchung wird eingerichtet</h4><p className="mt-2 max-w-xs text-sm leading-6 text-slate-500">Hier wird später Cal.com, Microsoft Bookings oder Calendly eingebunden. Aktuell werden keine Termine übertragen.</p>{CONFIG.demoEmail ? (
+<a href={`mailto:${CONFIG.demoEmail}?subject=Kostenlose Live-Demo anfragen`} className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#176b68] px-4 text-sm font-bold text-white hover:bg-[#125c59] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#176b68]/20"><Icon name="mail" size={16}/>Demo per E-Mail anfragen</a>
+) : (
+<div className="mt-5 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-xs font-semibold leading-5 text-slate-500">Demo-E-Mail-Adresse in der Konfiguration ergänzen.</div>
+)}</div></div>{/* CALENDAR_EMBED_PLACEHOLDER */}</div>;
+}
+
+function DemoForm() {
+ const [submitted,setSubmitted]=useState(false);
+ const handleSubmit=(e)=>{e.preventDefault();setSubmitted(true)};
+ return <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200 bg-[#fbfcfc] p-5 sm:p-7" aria-label="Demo-Anfrage"><div className="mb-6"><h3 className="text-lg font-bold text-slate-950">Lieber eine Nachricht senden?</h3><p className="mt-1 text-sm leading-6 text-slate-500">Hinterlassen Sie Ihre Angaben. Die technische Übertragung wird noch eingerichtet.</p></div><div className="grid gap-4 sm:grid-cols-2"><label className="form-label">Name<input required className="form-input" name="name" autoComplete="name"/></label><label className="form-label">Unternehmen<input required className="form-input" name="company" autoComplete="organization"/></label><label className="form-label">Geschäftliche E-Mail<input required type="email" className="form-input" name="email" autoComplete="email"/></label><label className="form-label">Telefon <span className="font-normal text-slate-400">(optional)</span><input type="tel" className="form-input" name="phone" autoComplete="tel"/></label><label className="form-label sm:col-span-2">Nachricht <span className="font-normal text-slate-400">(optional)</span><textarea rows="3" className="form-input resize-none" name="message"/></label></div><button type="submit" className="mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#176b68] px-5 text-sm font-bold text-white hover:bg-[#125c59] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#176b68]/20"><Icon name="send" size={17}/>Kostenlose Demo anfragen</button>{submitted&&<div role="status" className="mt-4 rounded-xl border border-[#e5c47a] bg-[#fff8e8] p-4 text-sm leading-6 text-[#6c511b]">Die Formularübertragung wird derzeit eingerichtet. Ergänzen Sie zunächst Ihre Demo-E-Mail-Adresse in der zentralen Konfiguration.</div>}</form>;
+}
+
+function Demo() {
+ return <section id="demo" className="border-y border-slate-200 bg-[#f2f6f5] py-20 sm:py-28"><div className="mx-auto max-w-[1120px] px-5 lg:px-8"><div className="mx-auto mb-12 max-w-2xl text-center"><p className="section-kicker">ANVERO im eigenen Ablauf sehen</p><h2 className="section-title">Kostenlose Live-Demo buchen.</h2><p className="section-copy mx-auto">Wir zeigen Ihnen, wie Anfrage, Rückfragen, Kalkulation, Freigabe und Follow-up in einem strukturierten Vorgang zusammenlaufen können.</p></div><div className="grid gap-6 lg:grid-cols-[1.1fr_.9fr]"><CalendarPlaceholder/><DemoForm/></div></div></section>;
+}
+
+const faqs = [
+ ["Ersetzt ANVERO meine Mitarbeiter?","Nein. ANVERO übernimmt vorbereitende und wiederkehrende Arbeitsschritte. Mitarbeiter prüfen Angebotsentwürfe und entscheiden über die Freigabe."],
+ ["Kann ANVERO falsche Angaben in einem Angebot verwenden?","Automatisierte Systeme können Informationen falsch interpretieren. Deshalb wird jedes Angebot vor dem Versand durch einen berechtigten Mitarbeiter geprüft und freigegeben."],
+ ["Wer gibt das Angebot frei?","Ein berechtigter Mitarbeiter Ihres Unternehmens. Erst nach dieser Freigabe wird das Angebot versendet."],
+ ["Werden Rückfragen automatisch verschickt?","Rückfragen können nach den für Ihr Unternehmen festgelegten Regeln automatisch versendet werden. Fehlende oder unklare Angaben bleiben im Vorgang nachvollziehbar."],
+ ["Wie funktionieren automatische Follow-ups?","Nach dem Angebotsversand können Follow-ups nach den für Ihr Unternehmen festgelegten Regeln automatisch ausgelöst werden."],
+ ["Muss ich meine bestehende Software wechseln?","Das hängt von Ihrer vorhandenen Systemlandschaft und dem gewünschten Ablauf ab. Die technische Einbindung wird individuell geprüft."],
+ ["Wie werden unsere Preise und Kalkulationsregeln hinterlegt?","Vorhandene Preis-, Leistungs- und Kalkulationsregeln werden strukturiert aufgenommen und im System abgebildet."],
+ ["Was passiert, wenn ANVERO eine Anfrage nicht versteht?","Unklare oder fehlende Angaben werden kenntlich gemacht. Ihr Team kann den Vorgang prüfen, ergänzen oder manuell weiterbearbeiten."],
+];
+
+function FAQ() {
+ const [open,setOpen]=useState(0);
+ return <section id="faq" className="bg-white py-20 sm:py-28"><div className="mx-auto max-w-[900px] px-5 lg:px-8"><div className="mb-12"><p className="section-kicker">Häufige Fragen</p><h2 className="section-title">Klarheit vor der Demo.</h2></div><div className="divide-y divide-slate-200 border-y border-slate-200">{faqs.map(([q,a],i)=>{const active=open===i;return <div key={q}><button onClick={()=>setOpen(active?-1:i)} aria-expanded={active} className="flex w-full items-center justify-between gap-6 py-5 text-left focus:outline-none focus-visible:ring-4 focus-visible:ring-[#176b68]/20"><span className="text-[15px] font-bold text-slate-900">{q}</span><span className={`grid h-7 w-7 shrink-0 place-items-center rounded-full border border-slate-200 text-slate-500 transition-transform ${active?'rotate-180 bg-slate-50':''}`}><Icon name="down" size={15}/></span></button>{active&&<div className="pb-5 pr-12 text-sm leading-7 text-slate-600">{a}</div>}</div>})}</div></div></section>;
+}
+
+function Footer() {
+ return <footer className="bg-[#0b211f] text-white"><div className="mx-auto max-w-[1180px] px-5 py-14 lg:px-8"><div className="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[1.4fr_.6fr_.6fr]"><div><div className="text-lg font-black tracking-[.16em]">ANVERO</div><p className="mt-3 max-w-sm text-sm leading-6 text-slate-400">{CONFIG.claim}</p><p className="mt-5 max-w-md text-xs leading-5 text-slate-500">Datenschutz und Informationssicherheit werden als fester Bestandteil der Produktentwicklung berücksichtigt. Konkrete Angaben zur Datenverarbeitung werden vor dem Produktivbetrieb transparent dokumentiert.</p></div><div><h3 className="text-xs font-bold uppercase tracking-wider text-slate-300">Produkt</h3><div className="mt-4 flex flex-col gap-3">{CONFIG.nav.slice(0,3).map(x=><a className="text-sm text-slate-400 hover:text-white" href={x.href} key={x.href}>{x.label}</a>)}</div></div><div><h3 className="text-xs font-bold uppercase tracking-wider text-slate-300">Kontakt</h3><div className="mt-4 flex flex-col gap-3">{CONFIG.demoEmail ? <a className="text-sm text-slate-400 hover:text-white" href={`mailto:${CONFIG.demoEmail}`}>{CONFIG.demoEmail}</a> : <span className="text-sm text-slate-500">E-Mail-Adresse folgt</span>}<a className="text-sm text-slate-400 hover:text-white" href="#">Impressum</a><a className="text-sm text-slate-400 hover:text-white" href="#">Datenschutz</a></div></div></div><div className="flex flex-col gap-2 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between"><span>© {new Date().getFullYear()} ANVERO</span><span>Prototyp · Kontaktdaten und Rechtstexte vor Veröffentlichung ergänzen</span></div></div></footer>;
+}
+
+function App() {
+ useEffect(()=>{
+   document.title="KI-Angebotsautomatisierung für Gebäudereinigungen | ANVERO";
+   let meta=document.querySelector('meta[name="description"]');
+   if(!meta){meta=document.createElement('meta');meta.name='description';document.head.appendChild(meta)}
+   meta.content="ANVERO automatisiert die Angebotsbearbeitung für Gebäudereinigungen – von der Kundenanfrage über Rückfragen und Kalkulation bis zum geprüften Angebotsentwurf und Follow-up.";
+ },[]);
+ return <><style>{`
+ @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
+ html{scroll-behavior:smooth} body{margin:0;font-family:Inter,sans-serif;color:#1e293b;background:#fff;-webkit-font-smoothing:antialiased}.section-kicker{margin-bottom:1rem;font-size:.72rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#176b68}.section-title{font-family:'DM Sans',sans-serif;font-size:clamp(2.25rem,5vw,3.45rem);font-weight:900;line-height:1.02;letter-spacing:-.045em;color:#102322}.section-copy{margin-top:1.25rem;max-width:39rem;font-size:1rem;line-height:1.75;color:#64748b}.form-label{display:flex;flex-direction:column;gap:.5rem;font-size:.75rem;font-weight:700;color:#334155}.form-input{min-height:46px;border:1px solid #cbd5e1;border-radius:.65rem;background:white;padding:.7rem .8rem;font:inherit;font-size:.875rem;color:#0f172a;outline:none;transition:.2s}.form-input:focus{border-color:#176b68;box-shadow:0 0 0 4px rgba(23,107,104,.12)}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+ `}</style><Header/><main><Hero/><Problem/><Workflow/><Control/><Specialization/><Demo/><FAQ/></main><Footer/></>;
+}
+
+export default App;
