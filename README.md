@@ -56,24 +56,27 @@ Technischer Ablauf und Datenschutzfolgen (Make, Airtable, KI): siehe `LEGAL-TODO
 
 ### Hero (oberster Bereich)
 
-- **H1:** "Anfrage rein. Angebot fertig. Sie senden." ("Sie senden." in Ocker, weil es die Handlung des Teams ist)
+- **H1:** "Anfrage rein. Angebot fertig. Sie senden." ("Sie senden." in Petrol, der Farbe fuer Sie und Ihr Team)
 - **Zeile ueber der H1:** "Angebotsautomatisierung fuer Gebaeudereinigungen" (schlichter Text, kein Badge).
 - **Unterzeile:** "Fuer von Ihnen festgelegte Standardleistungen erstellt ANVERO das Angebot direkt im Postfach:
   als PDF mit Kunden-E-Mail im Entwurf. Fehlt eine Angabe, liegt die Rueckfrage bereit. Ihr Team prueft und sendet."
 - **Hauptbutton:** "Demo-Termin auswaehlen" (Calendly, neuer Tab). Daneben Textlink "Ablauf an einem Beispiel
   ansehen" (`#ablauf`). Darunter "Persoenlich mit dem Gruender, an einer Ihrer Anfragen, unverbindlich" und der
   Textlink "Anfrage per Formular".
-- **Hero-Visual: nur das Ergebnis** ("Beispielablauf mit Testdaten"): Angebots-PDF auf Briefpapier
-  (Musterreinigung GmbH an Beispiel GmbH, Angebot Nr. 0001, Leistung, Objekt, Flaeche, Intervall, Zeiten, Preis
-  "nach Ihren Regeln" ohne Betrag), davor die Kunden-E-Mail mit Etikett "Entwurf", PDF-Anhang und der Zeile
-  "Gesendet wird nur von Ihrem Team".
+- **Hero-Visual: das Angebot erklaert sich selbst** ("Beispielablauf mit Testdaten"): Angebots-PDF
+  (Musterreinigung GmbH an Beispiel GmbH, Angebot Nr. 0001, `Angebot_Beispiel-GmbH.pdf`). Jede Zeile zeigt mit
+  einem grauen Etikett, woher sie kommt: "aus der Anfrage erkannt" (Leistung, Objekt, Flaeche, Intervall),
+  "per Rueckfrage ergaenzt" (Zeiten), "nach Ihren Regeln berechnet" (Preis, ohne Betrag). Unten in Petrol:
+  "Kunden-E-Mail mit PDF liegt als Entwurf im Postfach. Ihr Team prueft und sendet."
 
-### Gestaltung (Papier und Tinte)
+### Gestaltung
 
-- Farb-Tokens `av.*` in `tailwind.config.js`: paper #F7F5F0, ink #14201F, body #3B4443, muted #5F6866,
-  line #E2DED5, petrol #0F4F4B (CTA und alles, was ANVERO tut), ochre #8A5A0B mit ochre-tint #F6EBD3
-  (ausschliesslich das, was Ihr Team tut), night #10211F (Kontrolle, Footer). Schatten `shadow-paper` nur fuer
-  Artefakte.
+- Farb-Tokens `av.*` in `tailwind.config.js` (Farben der Petrol-Variante): paper #FAFAF7, ink #0E1F1E,
+  body #3D4B4A, muted #5E6B6A, line #E3E6E3, tag #ECEEEC, petrol #0F5C58, petrol-light #8FC9C2 (auf dunkel),
+  night #0F2928 (Kontrolle, Footer). Schatten `shadow-paper` nur fuer das PDF.
+- **Eine Akzentfarbe, feste Bedeutung:** Petrol = Sie und Ihr Team (Pruefen, Senden, "Sie senden." in der H1,
+  Calendly-Button, Links). ANVERO wird neutral dargestellt (dunkle Schrift, graue Etiketten). Der Anfragende
+  bleibt grau. Ocker/Gold wird nicht mehr verwendet.
 - Keine Karten als Dekoration, kein Hintergrundraster, kein Leuchten. Inhalte stehen frei, getrennt durch
   Haarlinien und Weissraum. Nur PDF und E-Mails haben Flaeche und Schatten.
 - Schrift Inter, Ueberschriften in 600, Fliesstext 17 px. Keine Serifenschrift (wuerde ein neues Paket brauchen).
@@ -86,25 +89,25 @@ Hero (`#top`) - E-Mail-Verlauf mit Weiche (`#ablauf`) - Zeitersparnis und Rechne
 (`#demo`). Navigation im Header: Ablauf, Zeitersparnis, Kontrolle, Pilotphase, FAQ. Alle Anker laufen ueber
 `/#...`, damit sie auch auf Unterseiten wie `/impressum` funktionieren.
 
-**E-Mail-Verlauf mit Weiche:** Zeitleiste mit zwei Spuren (Kunde links, Ihr Postfach rechts) und Achse in der
-Mitte, mobil eine Spur mit Achse links. Punkte: grau = Kunde, Petrol = ANVERO, Ocker = Ihr Team. An der Stelle
-"ANVERO prueft die Anfrage" steht die Weiche mit drei Wegen: Alles da (Angebot als PDF und Kunden-E-Mail, Ihr Team
-prueft und sendet), Etwas fehlt (Rueckfrage als Entwurf, Ihr Team sendet, Kunde antwortet, Antwort wird zugeordnet,
-Angebot), Sonderfall (manuelle Pruefung durch Ihr Team). Das Beispiel folgt "Etwas fehlt". Am Ende die
+**E-Mail-Verlauf mit Weiche:** Oben drei kurze Felder fuer die Weiche (Alles da: Angebot als PDF und Kunden-E-Mail ·
+Etwas fehlt: Rueckfrage als Entwurf, "in diesem Beispiel" markiert · Sonderfall: manuelle Pruefung durch Ihr Team).
+Darunter sechs kurze Zeilen mit Uhrzeit (Testdaten): Kunde fragt an, ANVERO erkennt die Luecke, Sie senden die
+Rueckfrage, Kunde antwortet, ANVERO ordnet zu und erstellt das Angebot, Sie pruefen und senden. Kunde grau,
+ANVERO dunkel, Sie in Petrol, jeweils mit eigenem Symbol. Keine Karten, nur Haarlinien. Am Ende die
 Vertrauenszeile (unveraendert): "Kein neues System. Keine unkontrollierten Sendungen. Ihr Team arbeitet im
 bestehenden Postfach und sendet nur, was geprueft wurde." Der fruehere Abschnitt "Drei Wege" ist entfallen.
 
 **Zeitersparnis und Rechner:** Ueberschrift "Weniger manuelle Schritte zwischen Anfrage und Angebot.", Text "Die
-wiederkehrenden Schritte uebernimmt ANVERO. Bei Ihrem Team bleiben Pruefen und Senden." Arbeitsteilung als zwei
-Balken mit acht Feldern (heute grau, mit ANVERO sieben Petrol, eins Ocker) und nummerierter Schrittliste, gekennzeichnet
-als "Typischer Ablauf einer Standardanfrage". Der Satz "7 von 8 Arbeitsschritten uebernimmt ANVERO" wird
-ausdruecklich nicht verwendet. Keine durchgestrichene Liste mehr.
-Rechner mit Zahlenfeldern (keine Schieberegler): Standardangebote pro Monat (30), Minuten pro Angebot heute (45,
-inklusive Kalkulation, Angebot und E-Mail), Minuten fuer Pruefen und Senden mit ANVERO (5, anpassbarer Beispielwert).
-Ergebnis "20 Stunden mögliche Zeitersparnis pro Monat" mit Rechenweg. Direkt darunter: "Beispielrechnung auf
-Grundlage Ihrer Angaben. Die 5 Minuten sind ein anpassbarer Beispielwert fuer Pruefen und Senden. Rueckfragen und
-Sonderfaelle sind nicht eingerechnet. Keine Zusage einer bestimmten Bearbeitungszeit." (Die Minutenzahl passt sich
-der Eingabe an.)
+wiederkehrenden Schritte uebernimmt ANVERO. Bei Ihrem Team bleiben Pruefen und Senden." Arbeitsteilung als Tabelle
+mit einer Zeile pro Schritt (Spalten Schritt, Heute, Mit ANVERO), gekennzeichnet als "Typischer Ablauf einer
+Standardanfrage". Letzte Zeile "Pruefen und senden" bleibt bei Ihrem Team (Petrol). Der Satz "7 von 8
+Arbeitsschritten uebernimmt ANVERO" wird ausdruecklich nicht verwendet. Keine Balken, keine durchgestrichene Liste.
+Rechner mit zwei Zahlenfeldern (keine Schieberegler): Standardangebote pro Monat (30) und Minuten pro Angebot
+heute (45, inklusive Kalkulation, Angebot und E-Mail). Fuer Pruefen und Senden mit ANVERO wird fest mit 5 Minuten
+gerechnet (`CHECK_MINUTES` in `src/App.jsx`), kein Eingabefeld. Ergebnis "20 Stunden mögliche Zeitersparnis pro
+Monat" mit Rechenweg. Direkt darunter: "Beispielrechnung auf Grundlage Ihrer Angaben. Fuer Pruefen und Senden mit
+ANVERO sind 5 Minuten pro Angebot als Beispielwert angesetzt. Rueckfragen und Sonderfaelle sind nicht eingerechnet.
+Keine Zusage einer bestimmten Bearbeitungszeit."
 
 Die Seite zeigt keine erfundenen Kunden, Referenzen, Zitate, Logos oder Zahlen. Beispiele sind als Beispiele
 gekennzeichnet.
@@ -168,7 +171,7 @@ src/siteConfig.js       Stammdaten, Calendly
 src/components/         ui.jsx (Icon, Buttons, Calendly), Layout.jsx (Header, Footer)
 src/pages/              Impressum, Datenschutz
 src/usePageMeta.js      Titel, Canonical und Open-Graph-URL fuer Unterseiten
-tailwind.config.js      Design-Tokens brand.*, approve.* (Petrol = Software arbeitet, Gold = Mensch)
+tailwind.config.js      Design-Tokens av.* (Startseite), brand.*/approve.* (Rechtsseiten)
 ```
 
 ## Verlauf (kurz)

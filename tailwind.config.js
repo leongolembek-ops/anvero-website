@@ -30,20 +30,20 @@ export default {
         },
         ink: '#102322',
         offwhite: '#f8faf9',
-        /* Petrol-Variante: Petrol = ANVERO handelt, Gold/Ocker = ausschliesslich Ihr Team handelt.
-           Kontraste (ca.): petrol auf weiss 9,4:1 · ochre auf weiss 5,9:1 · ochre auf ochre-tint 5,0:1
-           · muted auf paper 5,3:1 · ochre auf petrol-tint 5,1:1 */
+        /* Eine Akzentfarbe: Petrol = Sie und Ihr Team (Pruefen, Senden, CTA, H1 "Sie senden.").
+           ANVERO wird neutral dargestellt (Tinte, graue Etiketten auf "tag"). Der Anfragende bleibt grau.
+           Kontraste (ca.): petrol auf weiss 7,8:1 · muted auf paper 5,3:1 · petrol-light auf night 8:1 */
         av: {
           paper: '#FAFAF7',
           ink: '#0E1F1E',
           body: '#3D4B4A',
           muted: '#5E6B6A',
           line: '#E3E6E3',
+          tag: '#ECEEEC',
           petrol: '#0F5C58',
           'petrol-dark': '#0B4744',
           'petrol-tint': '#E8F0EE',
-          ochre: '#8A5A0B',
-          'ochre-tint': '#F6EBD3',
+          'petrol-light': '#8FC9C2',
           night: '#0F2928',
         },
       },

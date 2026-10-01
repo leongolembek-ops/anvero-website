@@ -167,17 +167,18 @@ gegen die Realitaet pruefen. Was nicht stimmt, wird gestrichen oder angepasst.
 
 **Zeitersparnis und Geschwindigkeit (neu)**
 - [ ] Zeitangaben auf der Seite: Hero und Abschnitte enthalten keine Zeitzusage mehr. Uebrig sind nur die
-      Testdaten-Uhrzeiten im Beispielverlauf (09:14 / 09:16 / 11:02 / 11:04) und die FAQ "Wie schnell liegt ein
+      Testdaten-Uhrzeiten im Beispielverlauf (09:14 / 09:16 / 09:20 / 11:02 / 11:04 / 11:10) und die FAQ "Wie schnell liegt ein
       Angebot bereit? In der Regel nach wenigen Minuten". In der Demo liegen Angebot oder Rueckfrage nach 1-2
       Minuten bereit (Angabe des Inhabers). Beim Kunden haengt das von der Make-Abfragehaeufigkeit ab. Sicherstellen,
       dass Kundenanbindungen genauso schnell laufen, sonst FAQ anpassen oder streichen.
-- [ ] Arbeitsteilung: Die acht Schritte sind als "Typischer Ablauf einer Standardanfrage" gekennzeichnet (sieben
-      Petrol, einer Ocker). Bestaetigen, dass sie der Praxis in Gebaeudereinigungen entsprechen. Der Satz "7 von 8
+- [ ] Arbeitsteilung: Die acht Schritte stehen als Tabelle, gekennzeichnet als "Typischer Ablauf einer
+      Standardanfrage". Bestaetigen, dass sie der Praxis in Gebaeudereinigungen entsprechen. Der Satz "7 von 8
       Arbeitsschritten uebernimmt ANVERO" wird bewusst nicht verwendet.
-- [ ] Zeitrechner: rechnet nur mit Besucherangaben. Startwert "Minuten fuer Pruefen und Senden mit ANVERO" = 5,
-      als anpassbarer Beispielwert gekennzeichnet (Inhaber: "wenige Minuten, abhaengig von der Person"). Der
-      Hinweis steht direkt unter dem Ergebnis. Wenn moeglich einmal messen. Rechner mit Werbewirkung vor dem
-      Livegang rechtlich ansehen lassen (UWG, Irrefuehrung).
+- [ ] Zeitrechner: Besucher geben nur Standardangebote pro Monat und Minuten pro Angebot heute ein. Fuer Pruefen
+      und Senden mit ANVERO wird fest mit 5 Minuten gerechnet (Vorgabe des Inhabers: "wenige Minuten, abhaengig von
+      der Person"), nicht mehr anpassbar. Der Hinweis direkt unter dem Ergebnis nennt die 5 Minuten ausdruecklich als
+      Beispielwert. Weil der Wert nicht mehr anpassbar ist, ist er staerker eine eigene Aussage: einmal messen und
+      den Rechner vor dem Livegang rechtlich ansehen lassen (UWG, Irrefuehrung).
 
 **Pilotangebot (Abschnitt "Pilotphase")**
 - [ ] "Vergünstigte Pilotkonditionen": Konditionen intern festlegen, bevor die erste Demo stattfindet.
