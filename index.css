@@ -42,8 +42,8 @@
     @apply mt-5 max-w-2xl text-[15.5px] leading-7 text-slate-600;
   }
   .field {
-    @apply min-h-[46px] rounded-[.65rem] border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition
-           focus:border-brand-600 focus:ring-4 focus:ring-brand-600/[.12];
+    @apply min-h-[46px] rounded-[10px] border border-[#CBD2CF] bg-white px-3 py-2.5 text-[15px] text-av-ink outline-none transition
+           focus:border-av-petrol focus:ring-[3px] focus:ring-av-petrol/20;
   }
   .field-label {
     @apply flex flex-col gap-2 text-xs font-bold text-slate-700;

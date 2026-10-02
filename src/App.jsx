@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { Icon, CalendlyButton } from "./components/ui";
 import { Header, Footer } from "./components/Layout";
 import { CONTACT } from "./siteConfig";
@@ -28,7 +28,7 @@ function HeroArtifact() {
   ];
   return (
     <figure className="mx-auto w-full max-w-[520px]">
-      <figcaption className="mb-3 text-[12px] text-av-muted">Beispielablauf mit Testdaten</figcaption>
+      <figcaption className="mb-3 text-[12px] text-av-muted">Beispielangebot mit Testdaten</figcaption>
       <div className="rounded-[6px] border border-av-line bg-white px-6 py-6 shadow-paper sm:px-8">
         <div className="flex items-start justify-between gap-4 border-b border-av-line pb-4">
           <div>
@@ -87,8 +87,7 @@ function Hero() {
             </a>
           </div>
           <p className="mt-4 text-[14px] text-av-muted">
-            Persönlich mit dem Gründer · an einer Ihrer Anfragen · unverbindlich ·{" "}
-            oder <a href="#demo" className={LINK}>Anfrage per Formular</a>
+            Persönlich mit dem Gründer · an einer Ihrer Anfragen · unverbindlich
           </p>
         </div>
 
@@ -157,7 +156,7 @@ function Flow() {
     <section id="ablauf" className="bg-white py-20 sm:py-28">
       <div className="mx-auto max-w-[1120px] px-5 lg:px-8">
         <p className={KICKER}>So läuft eine Anfrage</p>
-        <h2 className={`max-w-3xl ${H2}`}>ANVERO prüft jede Anfrage und wählt den richtigen Weg.</h2>
+        <h2 className={`max-w-3xl ${H2}`}>ANVERO prüft jede Anfrage und wählt den passenden Weg.</h2>
         <p className={LEAD}>
           Vollständige Anfragen werden zum Angebot, fehlende Angaben zur Rückfrage, Sonderfälle gehen an Ihr Team.
           Gesendet wird immer von Ihnen.
@@ -185,9 +184,10 @@ function Flow() {
           })}
         </div>
 
-        {/* Feste Mindesthoehe fuer den laengsten Fall, damit die Seite beim Umschalten nicht springt.
-            key={way.key} startet die Einblend-Animation bei jedem Wechsel neu. */}
-        <div className="mt-8 min-h-[36rem] max-w-3xl sm:min-h-[22rem]">
+        {/* Ab sm: feste Mindesthoehe fuer den laengsten Fall, damit die Seite beim Umschalten nicht springt.
+            Mobil liegen die Karten ueber der Liste, ein Hoehenwechsel darunter verschiebt nichts Sichtbares,
+            deshalb dort keine Mindesthoehe (sonst grosse Leerflaeche). key={way.key} startet die Animation neu. */}
+        <div className="mt-8 max-w-3xl sm:min-h-[22rem]">
           <ol key={way.key} className="border-t border-av-line" aria-label={`Beispielablauf mit Testdaten: ${way.title}`}>
             {way.events.map(([time, role, text], i) => (
               <li key={time} style={{ animationDelay: `${i * 120}ms` }}
@@ -215,28 +215,53 @@ function Flow() {
 const STEPS = ["Anfrage lesen", "Angaben heraussuchen", "Rückfrage schreiben", "Antwort zuordnen",
   "Kalkulieren", "Angebot und PDF erstellen", "Kunden-E-Mail schreiben", "Prüfen und senden"];
 
-/* Fester Beispielwert fuer Pruefen und Senden mit ANVERO (Vorgabe des Inhabers, nicht gemessen).
-   Steht ausdruecklich im Hinweis direkt unter dem Ergebnis. */
+/* Fester Beispielwert fuer Pruefen und Senden mit ANVERO (Vorgabe des Inhabers, nicht gemessen, nicht
+   auf der Seite einstellbar). Steht ausdruecklich im Hinweis direkt unter dem Ergebnis. */
 const CHECK_MINUTES = 5;
 
+/* Eingaben des Rechners: je ein Schieberegler und ein Zahlenfeld, beide zeigen denselben Wert. */
+const CALC_FIELDS = [
+  { key: "count", id: "calc-count", label: "Standardangebote pro Monat", hint: "z. B. Unterhalts- oder Glasreinigung",
+    unit: "Angebote", min: 1, max: 300, start: 30 },
+  { key: "today", id: "calc-today", label: "Minuten pro Angebot heute", hint: "inklusive Kalkulation, Angebot und E-Mail",
+    unit: "Minuten", min: 5, max: 180, start: 45 },
+];
+
 const fmt = (n) => n.toLocaleString("de-DE", { maximumFractionDigits: 1 });
-const toNumber = (v) => {
-  const n = Number(v);
-  return Number.isFinite(n) && n > 0 ? n : 0;
+const clamp = (n, min, max) => Math.min(Math.max(n, min), max);
+/* Gueltiger, begrenzter Ganzzahlwert oder null (leer, ungueltig). Verhindert NaN in der Rechnung. */
+const parseField = (raw, f) => {
+  if (String(raw).trim() === "") return null;
+  const n = Math.round(Number(raw));
+  return Number.isFinite(n) ? clamp(n, f.min, f.max) : null;
 };
 
+function CalcField({ field, raw, onChange }) {
+  const value = parseField(raw, field);
+  const hintId = `${field.id}-hint`;
+  const labelId = `${field.id}-label`;
+  return (
+    <div>
+      <label id={labelId} htmlFor={field.id} className="block text-[15px] font-medium text-av-ink">{field.label}</label>
+      <p id={hintId} className="mt-0.5 text-[13px] text-av-muted">{field.hint}</p>
+      <div className="mt-3 flex items-center gap-4">
+        <input type="range" min={field.min} max={field.max} step="1" value={value ?? field.min}
+          aria-labelledby={labelId} aria-describedby={hintId} aria-valuetext={`${value ?? field.min} ${field.unit}`}
+          onChange={(e) => onChange(e.target.value)}
+          className="h-2 min-w-0 flex-1 cursor-pointer accent-av-petrol focus:outline-none focus-visible:ring-[3px] focus-visible:ring-av-petrol focus-visible:ring-offset-2" />
+        <input id={field.id} type="number" inputMode="numeric" min={field.min} max={field.max} step="1" value={raw}
+          aria-describedby={hintId} onChange={(e) => onChange(e.target.value)}
+          onBlur={() => onChange(String(value ?? field.min))}
+          className="field w-[5.5rem] shrink-0 text-right tabular-nums" />
+      </div>
+    </div>
+  );
+}
+
 function TimeSaving() {
-  const [count, setCount] = useState("30");
-  const [today, setToday] = useState("45");
-
-  const c = toNumber(count), t = toNumber(today), k = CHECK_MINUTES;
-  const saved = Math.max((c * (t - k)) / 60, 0);
-
-  const fields = [
-    ["calc-count", "Standardangebote pro Monat", "z. B. Unterhalts- oder Glasreinigung", count, setCount],
-    ["calc-today", "Minuten pro Angebot heute", "inklusive Kalkulation, Angebot und E-Mail", today, setToday],
-  ];
-
+  const [raw, setRaw] = useState(() => Object.fromEntries(CALC_FIELDS.map((f) => [f.key, String(f.start)])));
+  const [c, t] = CALC_FIELDS.map((f) => parseField(raw[f.key], f) ?? 0);
+  const saved = Math.max((c * (t - CHECK_MINUTES)) / 60, 0);
   return (
     <section id="zeit" className="border-y border-av-line bg-av-paper py-20 sm:py-28">
       <div className="mx-auto max-w-[1120px] px-5 lg:px-8">
@@ -277,15 +302,10 @@ function TimeSaving() {
           <div>
             <h3 className="text-[22px] font-semibold tracking-[-.015em] text-av-ink">Rechnen Sie mit Ihren eigenen Werten.</h3>
             <p className="mt-2 text-[15px] text-av-body">Beispielrechnung. Ersetzen Sie die Startwerte durch Ihre Zahlen.</p>
-            <div className="mt-8 space-y-6">
-              {fields.map(([id, label, hint, value, set]) => (
-                <div key={id}>
-                  <label htmlFor={id} className="block text-[15px] font-medium text-av-ink">{label}</label>
-                  <p id={`${id}-hint`} className="mt-0.5 text-[13px] text-av-muted">{hint}</p>
-                  <input id={id} type="number" inputMode="numeric" min="0" step="1" value={value}
-                    aria-describedby={`${id}-hint`} onChange={(e) => set(e.target.value)}
-                    className="field mt-2 w-full max-w-[220px] tabular-nums" />
-                </div>
+            <div className="mt-8 space-y-7">
+              {CALC_FIELDS.map((f) => (
+                <CalcField key={f.key} field={f} raw={raw[f.key]}
+                  onChange={(v) => setRaw((prev) => ({ ...prev, [f.key]: v }))} />
               ))}
             </div>
           </div>
@@ -293,17 +313,13 @@ function TimeSaving() {
           <div className="lg:border-l lg:border-av-line lg:pl-16">
             <div aria-live="polite">
               <p className="text-[clamp(2.5rem,5vw,3.5rem)] font-semibold leading-none tracking-[-.02em] text-av-petrol">
-                {fmt(saved)} Stunden
+                {fmt(saved)} {saved === 1 ? "Stunde" : "Stunden"}
               </p>
               <p className="mt-2 text-[18px] text-av-ink">mögliche Zeitersparnis pro Monat</p>
-              <p className="mt-2 text-[14px] text-av-muted">
-                {fmt(c)} Angebote × ({fmt(t)} − {fmt(k)}) Minuten · rund {fmt(saved * 12)} Stunden im Jahr
-              </p>
             </div>
             <p className="mt-5 border-l-2 border-av-line pl-3 text-[13px] leading-5 text-av-muted">
-              Beispielrechnung auf Grundlage Ihrer Angaben. Für Prüfen und Senden mit ANVERO sind {CHECK_MINUTES} Minuten
-              pro Angebot als Beispielwert angesetzt. Rückfragen und Sonderfälle sind nicht eingerechnet. Keine Zusage einer
-              bestimmten Bearbeitungszeit.
+              Beispielrechnung auf Grundlage Ihrer Angaben. Die {CHECK_MINUTES} Minuten sind ein Beispielwert für Prüfen und Senden
+              mit ANVERO. Rückfragen und Sonderfälle sind nicht eingerechnet. Keine Zusage einer bestimmten Bearbeitungszeit.
             </p>
             <p className="mt-8 text-[15px] text-av-body">In der Demo rechnen wir mit Ihren echten Abläufen.</p>
             <CalendlyButton className="mt-4 w-full sm:w-auto" />
@@ -436,13 +452,13 @@ function FAQ() {
     ["Was sehe ich in der Demo?",
       "Wir spielen gemeinsam eine typische Anfrage aus Ihrem Betrieb durch, auf Wunsch anonymisiert, vom Eingang bis zum fertigen Angebot im Postfach. Danach entscheiden Sie, ob Sie mehr erfahren möchten. Die Demo ist unverbindlich."],
     ["Wie schnell liegt ein Angebot bereit?",
-      "In der Regel nach wenigen Minuten: Dann liegen das Angebot als PDF und die Kunden-E-Mail als Entwurf in Ihrem Postfach, oder die Rückfrage, falls eine Angabe fehlt. Wann gesendet wird, entscheidet Ihr Team."],
+      "Das hängt von der Anbindung Ihres Postfachs ab. In der Demo liegen das Angebot als PDF und die Kunden-E-Mail als Entwurf nach wenigen Minuten bereit, oder die Rückfrage, falls eine Angabe fehlt. Wann gesendet wird, entscheidet Ihr Team."],
     ["Brauche ich ein neues System oder eine neue Oberfläche?",
       "Nein. ANVERO arbeitet in Ihrem bestehenden Postfach. Sie müssen keine neue Oberfläche lernen."],
     ["Verschickt ANVERO selbstständig E-Mails an meine Kunden?",
       "Nein. Rückfrage und Kunden-E-Mail liegen als Entwurf in Ihrem Postfach, bis ein Mitarbeiter sie geprüft und gesendet hat. Ohne das verlässt keine Nachricht Ihr Haus."],
     ["Kann ANVERO falsche Preise erfinden?",
-      "Nein. Kalkuliert wird ausschließlich mit der Preislogik, die Sie hinterlegt haben. Fehlen Angaben oder passt die Anfrage nicht zu Ihren festgelegten Leistungen, wird der Fall zur manuellen Prüfung übergeben statt geschätzt."],
+      "ANVERO erfindet keine Preise. Die Angaben werden nach Ihren hinterlegten Regeln verarbeitet. Ihr Team prüft jedes Angebot vor dem Senden. Fehlen Angaben oder passt die Anfrage nicht zu Ihren festgelegten Leistungen, wird nicht geschätzt: Dann liegt eine Rückfrage bereit oder der Fall geht zur manuellen Prüfung an Ihr Team."],
     ["Was passiert bei ungewöhnlichen Anfragen?",
       "Anfragen, die nicht zu Ihren festgelegten Leistungen passen, und untypische Fälle erkennt ANVERO selbst und gibt sie zur manuellen Prüfung an einen Mitarbeiter, statt sie automatisch zu beantworten."],
     ["Setzt ANVERO KI ein?",
@@ -483,100 +499,10 @@ function FAQ() {
   );
 }
 
-/* ── Demo-Formular mit echten Zuständen ────────────────────────── */
-
-/* Endpoint kommt aus .env (VITE_FORM_ENDPOINT), siehe .env.example.
-   Ohne Endpoint: im Dev-Server simulierter Erfolg, im Produktions-Build
-   eine ehrliche Fehlermeldung statt eines vorgetäuschten Erfolgs. */
-const FORM_ENDPOINT = import.meta.env.VITE_FORM_ENDPOINT;
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-/* Technische Obergrenzen gegen überlange Eingaben (kein Ersatz für serverseitige Prüfung). */
-const FIELD_LIMITS = { name: 100, company: 150, email: 254, message: 2000 };
-
-function validateDemo(f) {
-  const errors = {};
-  if (!f.get("name")) errors.name = "Bitte geben Sie Ihren Namen ein.";
-  if (!f.get("company")) errors.company = "Bitte geben Sie den Namen Ihres Unternehmens ein.";
-  const email = f.get("email");
-  if (!email) errors.email = "Bitte geben Sie Ihre geschäftliche E-Mail-Adresse ein.";
-  else if (!EMAIL_PATTERN.test(email)) errors.email = "Diese E-Mail-Adresse scheint nicht zu stimmen. Bitte prüfen Sie sie, zum Beispiel name@firma.de.";
-  return errors;
-}
-
-function TextField({ name, label, type = "text", autoComplete, required = false, optional = false, multiline = false, error, onChange, className = "" }) {
-  const id = `demo-${name}`;
-  const errorId = `${id}-error`;
-  const Control = multiline ? "textarea" : "input";
-  return (
-    <div className={`flex flex-col gap-2 ${className}`}>
-      <label htmlFor={id} className="text-[13px] font-semibold text-av-ink">
-        {label}
-        {required && <span aria-hidden="true"> *</span>}
-        {optional && <span className="font-normal text-av-muted"> (optional)</span>}
-      </label>
-      <Control id={id} name={name} type={multiline ? undefined : type} rows={multiline ? 3 : undefined}
-        autoComplete={autoComplete} required={required} maxLength={FIELD_LIMITS[name]}
-        aria-invalid={error ? "true" : undefined} aria-describedby={error ? errorId : undefined}
-        onChange={() => onChange(name)}
-        className={`field ${multiline ? "resize-none" : ""} ${error ? "border-red-600 focus:border-red-600 focus:ring-red-600/[.12]" : ""}`} />
-      {error && (
-        <p id={errorId} className="flex items-start gap-1.5 text-[13px] font-semibold leading-5 text-red-700">
-          <Icon name="alert" size={14} className="mt-[3px] shrink-0" />{error}
-        </p>
-      )}
-    </div>
-  );
-}
+/* ── Demo: Terminbuchung über Calendly, dazu E-Mail und Telefon ── */
+/* Kein Kontaktformular: Es gibt keine Formularuebermittlung und keinen Formularanbieter. */
 
 function Demo() {
-  const [state, setState] = useState("idle");
-  const [err, setErr] = useState("");
-  const [errors, setErrors] = useState({});
-  const successRef = useRef(null);
-  const fail = (message) => { setErr(message); setState("error"); };
-  const clearError = (name) => setErrors((prev) => {
-    if (!prev[name]) return prev;
-    const { [name]: _removed, ...rest } = prev;
-    return rest;
-  });
-
-  useEffect(() => {
-    if (state === "success") successRef.current?.focus();
-  }, [state]);
-
-  const submit = async (e) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const f = new FormData(form);
-    if (f.get("_hp")) return;
-    for (const key of Object.keys(FIELD_LIMITS)) f.set(key, String(f.get(key) ?? "").trim());
-
-    const found = validateDemo(f);
-    setErrors(found);
-    const firstInvalid = Object.keys(found)[0];
-    if (firstInvalid) {
-      setErr(""); setState("idle");
-      form.elements[firstInvalid]?.focus(); // Screenreader lesen so direkt die Fehlermeldung vor
-      return;
-    }
-    setErr(""); setState("loading");
-
-    if (!FORM_ENDPOINT) {
-      if (import.meta.env.DEV) { setTimeout(() => setState("success"), 900); return; }
-      console.error("VITE_FORM_ENDPOINT fehlt – Formular ist nicht verbunden.");
-      fail(`Das Formular ist derzeit nicht verfügbar. Bitte schreiben Sie uns direkt an ${CONTACT.email}.`); return;
-    }
-    try {
-      const res = await fetch(FORM_ENDPOINT, { method: "POST", body: f, headers: { Accept: "application/json" } });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      setState("success");
-    } catch (error) {
-      console.error("Demo-Formular konnte nicht gesendet werden:", error);
-      fail(`Senden hat nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie uns an ${CONTACT.email}.`);
-    }
-  };
-
   return (
     <section id="demo" className="border-t border-av-line bg-white py-20 sm:py-28">
       <div className="mx-auto max-w-[760px] px-5 lg:px-8">
@@ -589,63 +515,20 @@ function Demo() {
           </p>
         </div>
 
-        {/* Alternative Kontaktwege neben dem Formular. Der Calendly-Link kommt aus src/siteConfig.js. */}
+        {/* Der Calendly-Link kommt aus src/siteConfig.js. */}
         <div className="mx-auto mt-8 flex max-w-[680px] flex-col items-center gap-3 text-center">
           <CalendlyButton size="lg" className="w-full sm:w-auto" />
-          <p className="text-[14px] leading-6 text-av-body">
+          <p className="text-[13px] leading-5 text-av-muted">
+            Die Terminbuchung öffnet die externe Seite von Calendly. Mehr dazu in der{" "}
+            <a href="/datenschutz" className={LINK}>Datenschutzerklärung</a>.
+          </p>
+          <p className="mt-4 text-[15px] leading-6 text-av-body">
             Sie erreichen uns auch direkt:{" "}
             <a href={`mailto:${CONTACT.email}`} className={LINK}>{CONTACT.email}</a>
             {" · "}
             <a href={CONTACT.phoneHref} className={LINK}>{CONTACT.phoneDisplay}</a>
           </p>
-          <p className="mt-4 text-[14px] font-medium text-av-muted">Oder Anfrage per Formular</p>
         </div>
-
-        {state === "success" ? (
-          <div ref={successRef} tabIndex={-1} role="status" className="mx-auto mt-8 max-w-[620px] rounded-[10px] border border-av-line bg-av-paper p-8 text-center focus:outline-none">
-            <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-av-petrol-tint text-av-petrol"><Icon name="check" size={24} /></span>
-            <h3 className="mt-4 text-lg font-semibold text-av-ink">Vielen Dank für Ihre Anfrage</h3>
-            <p className="mt-2 text-[15px] leading-7 text-av-body">
-              Wir haben Ihre Angaben erhalten und melden uns bei Ihnen.
-            </p>
-          </div>
-        ) : (
-          <form onSubmit={submit} noValidate
-            className="mx-auto mt-6 max-w-[680px] rounded-[10px] border border-av-line bg-av-paper p-6 sm:p-8">
-            <input type="text" name="_hp" tabIndex={-1} autoComplete="off" aria-hidden="true"
-              className="absolute h-0 w-0 opacity-0" />
-            <p className="mb-5 text-[13px] text-av-muted">Felder mit * sind Pflichtfelder.</p>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <TextField name="name" label="Name" autoComplete="name" required error={errors.name} onChange={clearError} />
-              <TextField name="company" label="Unternehmen" autoComplete="organization" required error={errors.company} onChange={clearError} />
-              <TextField name="email" label="Geschäftliche E-Mail" type="email" autoComplete="email" required
-                error={errors.email} onChange={clearError} className="sm:col-span-2" />
-              <TextField name="message" label="Nachricht" optional multiline onChange={clearError} className="sm:col-span-2" />
-            </div>
-
-            {/* Meldungen zum Senden selbst (Netzwerk, nicht erreichbar); Feldfehler stehen direkt am Feld. */}
-            <div aria-live="polite" className="mt-3 min-h-5">
-              {state === "error" && (
-                <p className="flex items-center gap-1.5 text-[13px] font-semibold text-red-700">
-                  <Icon name="alert" size={14} />{err}
-                </p>
-              )}
-            </div>
-
-            <p className="mt-2 text-[13px] leading-5 text-av-muted">
-              Wir verwenden Ihre Angaben, um Ihre Anfrage zu bearbeiten. Informationen zur Datenverarbeitung finden
-              Sie in der <a href="/datenschutz" className={LINK}>Datenschutzerklärung</a>.
-            </p>
-
-            <button type="submit" disabled={state === "loading"}
-              className="mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-[10px] border border-av-petrol bg-white px-5 text-[15px] font-semibold text-av-petrol transition-colors hover:bg-av-petrol-tint disabled:cursor-not-allowed disabled:opacity-60 focus:outline-none focus-visible:ring-[3px] focus-visible:ring-av-petrol">
-              {state === "loading"
-                ? <><span className="h-4 w-4 animate-spin rounded-full border-2 border-av-petrol/30 border-t-av-petrol" />Wird gesendet …</>
-                : <><Icon name="send" size={17} />Anfrage senden</>}
-            </button>
-            <p className="mt-3 text-center text-[13px] text-av-muted">Keine Newsletter-Anmeldung.</p>
-          </form>
-        )}
       </div>
     </section>
   );

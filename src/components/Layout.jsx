@@ -5,6 +5,16 @@ import { CONTACT, CALENDLY_HREF, CALENDLY_LABEL } from "../siteConfig";
 /* Alle Anker laufen ueber "/#..." statt "#...": So funktionieren Header und Footer
    auf der Startseite (Scroll ohne Neuladen) und auf Unterseiten wie /impressum. */
 
+/* Wortmarke "anvero." in Inter SemiBold, Punkt in Petrol (auf dunklem Grund: petrol-light).
+   Gleiche Form wie brand/anvero-logo.svg, Favicon und OG-Bild. */
+export function Wordmark({ className = "", dot = "text-av-petrol" }) {
+  return (
+    <span aria-hidden="true" className={`block font-semibold leading-none tracking-[-.035em] ${className}`}>
+      anvero<span className={dot}>.</span>
+    </span>
+  );
+}
+
 const NAV = [["Ablauf", "/#ablauf"], ["Zeitersparnis", "/#zeit"], ["Kontrolle", "/#kontrolle"], ["Pilotphase", "/#pilot"], ["FAQ", "/#faq"]];
 
 export function Header() {
@@ -12,14 +22,10 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-av-line bg-av-paper/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-[1180px] items-center justify-between gap-4 px-5 lg:h-[72px] lg:px-8">
-        <a href="/" className="flex items-center gap-3 rounded-lg focus:outline-none focus-visible:ring-[3px] focus-visible:ring-av-petrol">
-          <div className="grid h-9 w-9 place-items-center rounded-[9px] bg-av-petrol text-white">
-            <span className="text-sm font-bold tracking-[-.04em]">AV</span>
-          </div>
-          <div>
-            <div className="text-[15px] font-semibold tracking-[.12em] text-av-ink">ANVERO</div>
-            <div className="text-xs text-av-muted">Anfrage bis Angebot</div>
-          </div>
+        <a href="/" aria-label="ANVERO, zur Startseite"
+          className="rounded-lg focus:outline-none focus-visible:ring-[3px] focus-visible:ring-av-petrol focus-visible:ring-offset-2">
+          <Wordmark className="text-[26px] text-av-ink" />
+          <span className="mt-0.5 block text-xs text-av-muted">Anfrage bis Angebot</span>
         </a>
         <nav className="hidden items-center gap-7 lg:flex">
           {NAV.map(([l, h]) => (
@@ -56,7 +62,8 @@ export function Footer() {
       <div className="mx-auto max-w-[1120px] px-5 py-14 lg:px-8">
         <div className="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[1.4fr_.6fr_.6fr]">
           <div>
-            <div className="text-lg font-semibold tracking-[.14em]">ANVERO</div>
+            <p className="sr-only">ANVERO</p>
+            <Wordmark className="text-[28px] text-white" dot="text-av-petrol-light" />
             <p className="mt-3 max-w-sm text-sm leading-6 text-slate-300">
               Angebotsautomatisierung für Gebäudereinigungen – vom Postfach zum fertigen Angebot.
             </p>
@@ -77,8 +84,8 @@ export function Footer() {
                   {CALENDLY_LABEL}<span className="sr-only"> (öffnet in neuem Tab)</span>
                 </a>
               )}
-              <a href="/#demo" className={link}>Anfrage per Formular</a>
               <a href={`mailto:${CONTACT.email}`} className={link}>{CONTACT.email}</a>
+              <a href={CONTACT.phoneHref} className={link}>{CONTACT.phoneDisplay}</a>
               <a href="/impressum" className={link}>Impressum</a>
               <a href="/datenschutz" className={link}>Datenschutz</a>
             </div>

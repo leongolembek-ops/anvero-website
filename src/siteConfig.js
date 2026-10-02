@@ -14,9 +14,10 @@ export const BUSINESS = {
   country: "Deutschland",
 };
 
-/* E-Mail-Adresse (Postfach-Domain, keine Website-URL). */
+/* Oeffentliche Kontaktadresse auf der Website-Domain. Das interne Demo-Postfach fuer Make und Tests
+   wird hier bewusst nicht eingetragen. */
 export const CONTACT = {
-  email: "info@anvero.de",
+  email: "info@anvero.tech",
   phoneDisplay: "0152 31792983",
   phoneHref: "tel:+4915231792983",
 };

@@ -6,15 +6,15 @@ oder Fachkraft fuer Datenschutz) geprueft werden.
 
 ## Aktueller Stand
 
-- **Impressum und Datenschutzerklaerung sind Entwuerfe** und muessen vor dem Livegang rechtlich geprueft werden.
-- **Calendly ist aktiviert.** Aktueller Link: `https://calendly.com/leongolembek` (Konstante `CALENDLY_URL`
-  in `src/siteConfig.js`). Der Button "Online-Termin buchen" oeffnet die externe Calendly-Seite in einem
+- **Impressum und Datenschutzerklaerung** beschreiben den tatsaechlichen Website-Stand, ohne sichtbare Platzhalter.
+  Sie sind **nicht rechtlich geprueft** und muessen vor dem Livegang geprueft werden.
+- **Calendly ist der primaere Kontaktweg.** Link: `https://calendly.com/leongolembek` (Konstante `CALENDLY_URL`
+  in `src/siteConfig.js`). Der Button "Demo-Termin auswählen" oeffnet die externe Calendly-Seite in einem
   neuen Tab (`target="_blank"`, `rel="noopener noreferrer"`). Calendly ist nicht in die Seite eingebettet.
-- **Das Kontaktformular besteht zusaetzlich weiter.** Das **Formular-Backend ist noch nicht eingerichtet**
-  (`VITE_FORM_ENDPOINT` nicht gesetzt). Bis dahin zeigt das Formular im Produktions-Build eine ehrliche
-  Fehlermeldung mit Hinweis auf `info@anvero.de`.
-- Die Datenschutzerklaerung enthaelt einen Calendly-Abschnitt (Abschnitt 6) als **Grundgeruest**. Die konkreten
-  Angaben fehlen noch (siehe unten).
+- **Kein Kontaktformular.** Das Formular wurde vollstaendig entfernt (keine Formularuebermittlung, kein
+  Formularanbieter, kein `VITE_FORM_ENDPOINT`). Kontakt ausserdem per E-Mail und Telefon.
+- **Oeffentliche E-Mail-Adresse:** `info@anvero.tech` (vorher `info@anvero.de`, ueberall ersetzt). Das Postfach
+  ist noch nicht eingerichtet (geplant: Zoho Mail). Vor dem Livegang einrichten und testen.
 
 ## Impressum (`src/pages/Impressum.jsx`)
 
@@ -35,52 +35,37 @@ Zu klaeren:
       relevant (nicht zwingend im Impressum). Mit Steuerberatung klaeren.
 - [ ] Telefonnummer bestaetigen (`0152 31792983`, Link `tel:+4915231792983`).
 
-## Datenschutzerklaerung (`src/pages/Datenschutz.jsx`), ENTWURF
+## Datenschutzerklaerung (`src/pages/Datenschutz.jsx`)
 
-Der Entwurf beschreibt nur, was sich aus dem Projektcode und Ihren Angaben belegen laesst.
-Bewusst **nicht** enthalten, weil keine Fakten vorliegen:
+Der Text beschreibt nur, was sich aus dem Projektcode und Ihren Angaben belegen laesst. Angaben zu Vercel und
+Calendly (Firma, Anschrift, Rolle als Auftragsverarbeiter, Uebermittlung in die USA ueber EU-U.S. Data Privacy
+Framework und Standardvertragsklauseln) stammen aus deren eigenen Datenschutzhinweisen, abgerufen am 02.10.2026:
+`https://vercel.com/legal/privacy-policy`, `https://calendly.com/legal/privacy-notice`.
 
-- [ ] **Hosting-Anbieter:** Im Text steht nur "Hosting-Anbieter". Falls Vercel genutzt wird: Vertragsstatus,
-      Auftragsverarbeitungsvertrag (AVV/DPA), Region und Umfang der Server-Logs klaeren und namentlich
-      eintragen.
-- [ ] **Drittlandtransfer** (z. B. USA bei US-Anbietern): Rechtsgrundlage (Angemessenheitsbeschluss/DPF,
-      Standardvertragsklauseln) klaeren und aufnehmen.
-- [ ] **Formular-Dienstleister:** Welcher Dienst nimmt die Formulardaten entgegen (z. B. eigener Endpoint,
-      E-Mail-Weiterleitung, Formularanbieter)? Namentlich nennen, AVV abschliessen, Standort und Speicherort
-      klaeren. **Das Formular erst aktivieren, wenn das geklaert ist.**
-- [ ] **Speicherdauer:** Konkrete Fristen fuer Anfragen, E-Mails und Formulardaten festlegen und eintragen.
-      Aktuell steht nur eine allgemeine Formulierung im Text.
-- [ ] **Terminbuchung (Calendly), bereits aktiv, Abschnitt 6 ist nur ein Grundgeruest.** Der Entwurf sagt
-      bisher nur: Klick oeffnet eine externe Calendly-Seite in neuem Tab, Calendly dient der Terminvereinbarung,
-      je nach Buchung koennen Name, E-Mail-Adresse und Termininformationen verarbeitet werden. Noch zu pruefen
-      und zu ergaenzen:
-  - [ ] Anbieter: korrekte Bezeichnung des Vertragspartners (juristische Person, Anschrift) aus den
-        Calendly-Vertragsunterlagen uebernehmen.
-  - [ ] Zweck im Detail und **Rechtsgrundlage** (z. B. vorvertragliche Massnahmen oder berechtigtes Interesse).
-  - [ ] **Speicherdauer:** bei uns (Kalender, Buchungsdaten) und bei Calendly.
-  - [ ] **Auftragsverarbeitung:** Besteht ein AV-Vertrag, und ist er abgeschlossen? Rollenverteilung klaeren
-        (Auftragsverarbeitung oder eigene Verantwortlichkeit von Calendly).
-  - [ ] **Drittlandtransfer:** Werden Daten in Laender ausserhalb der EU/des EWR uebermittelt, und auf welcher
-        Grundlage (Angemessenheitsbeschluss/DPF, Standardvertragsklauseln)?
-  - [ ] Cookies/Technologien auf der Calendly-Seite: Pruefen und beschreiben, ob und welche gesetzt werden und
-        ob dafuer eine Einwilligung noetig ist. (Die Aussage "keine Cookies" in Abschnitt 7 gilt nur fuer
-        diese Website.)
-  - [ ] Abschnitt 9 "Empfaenger" an Calendly anpassen, sobald die Angaben stehen.
-  - [ ] Einstellungen im eigenen Calendly-Konto pruefen: welche Eingabefelder abgefragt werden (nur
-        Erforderliches), Bestaetigungs- und Erinnerungs-E-Mails, Weiterleitungen, Integrationen, Aufbewahrung.
-  - [ ] Pruefen, ob in der Terminbeschreibung bei Calendly auf die Datenschutzerklaerung verwiesen werden soll.
-  - [ ] Fallback pruefen: Bei einer ungueltigen `CALENDLY_URL` wuerde der Button deaktiviert dargestellt.
-- [ ] **E-Mail-Verarbeitung:** Wer betreibt das Postfach `info@anvero.de` (Anbieter)? Gegebenenfalls aufnehmen.
-- [ ] **Aussagen im Entwurf gegen die Realitaet pruefen:**
-  - "Keine Cookies, kein Tracking": gilt nach Stand des Codes. Vor dem Livegang bestaetigen, dass auf Vercel
-    keine Analytics, Speed Insights oder aehnliche Dienste aktiviert sind.
-  - Schriftart wird selbst ausgeliefert (kein Google Fonts): gilt nach Stand des Codes.
-  - "Keine automatisierte Entscheidungsfindung auf der Website": gilt fuer die Website. Fuer das Produkt
-    ANVERO selbst (Kundendaten, Postfachzugriff) wird eine **eigene** Datenschutz- und AV-Dokumentation benoetigt.
-- [ ] **Aufsichtsbehoerde:** Zustaendigkeit (Schleswig-Holstein) und Bezeichnung der Behoerde bestaetigen lassen.
+Zu pruefen und gegebenenfalls zu ergaenzen:
+
+- [ ] **Gesamttext rechtlich pruefen lassen**, bevor die Seite live geht.
+- [ ] **Vercel:** Auftragsverarbeitungsvertrag (DPA) im Vercel-Konto pruefen bzw. abschliessen, Region und Umfang
+      der Server-Logs klaeren. Vor dem Livegang bestaetigen, dass in Vercel keine Analytics, Speed Insights oder
+      aehnliche Dienste aktiviert sind (sonst stimmt "keine Cookies, kein Tracking" nicht mehr).
+- [ ] **Calendly:** DPA mit Calendly pruefen bzw. abschliessen. Einstellungen im eigenen Konto pruefen: welche
+      Eingabefelder abgefragt werden (nur Erforderliches), Bestaetigungs- und Erinnerungs-E-Mails, Weiterleitungen,
+      Integrationen (z. B. Kalender), Aufbewahrung. Pruefen, ob in der Terminbeschreibung auf die
+      Datenschutzerklaerung verwiesen werden soll.
+- [ ] **E-Mail-Anbieter fuer `info@anvero.tech` (geplant Zoho Mail):** Erst nach der tatsaechlichen Einrichtung in
+      die Datenschutzerklaerung aufnehmen (Anbieter, Sitz, AV-Vertrag, Speicherort). Bis dahin steht dort kein
+      Mailanbieter. Danach erneut rechtlich pruefen lassen.
+- [ ] **Speicherdauer:** Im Text steht bewusst nur eine allgemeine Formulierung ohne Fristen. Falls konkrete
+      Fristen festgelegt werden (Anfragen, Termindaten, E-Mails), eintragen.
+- [ ] **Aufsichtsbehoerde:** Zustaendigkeit (ULD Schleswig-Holstein) bestaetigen lassen.
 - [ ] **Datenschutzbeauftragte/r:** Voraussichtlich nicht benennungspflichtig, bitte bestaetigen lassen.
-- [ ] Cookie-/Einwilligungsbanner: Nach Stand des Codes nicht noetig. Entfaellt, solange keine Dienste ergaenzt werden.
+- [ ] Cookie-/Einwilligungsbanner: Nach Stand des Codes nicht noetig. Entfaellt, solange keine Dienste ergaenzt
+      werden. Calendly wird nur verlinkt, nicht eingebettet.
+- [ ] "Keine automatisierte Entscheidungsfindung" gilt fuer die Website. Fuer das Produkt ANVERO selbst
+      (Kundendaten, Postfachzugriff) wird eine **eigene** Datenschutz- und AV-Dokumentation benoetigt.
 - [ ] Datum "Stand" bei jeder inhaltlichen Aenderung aktualisieren.
+- [ ] Falls spaeter wieder ein Formular eingebaut wird: Anbieter, AV-Vertrag, Speicherort und Spamschutz klaeren
+      und die Datenschutzerklaerung ergaenzen, bevor es aktiv wird.
 
 ## Technischer Ablauf des Produkts (intern, Stand der Angaben des Inhabers)
 
@@ -101,7 +86,7 @@ Eingangspostfach (Referenzintegration: Microsoft Outlook, Demo-Postfach)
 -> ein Mitarbeiter des Kunden prueft Angebot und E-Mail und sendet sie selbst. Sonderfaelle erkennt ANVERO
    selbst und gibt sie zur manuellen Pruefung weiter.
 
-Was die Website daraus oeffentlich sagt: "Standardangebote automatisch erstellen. Nur noch pruefen und senden.",
+Was die Website daraus oeffentlich sagt: "Anfrage rein. Angebot fertig. Sie senden." (H1, eingegrenzt durch die Unterzeile),
 "arbeitet direkt im Postfach", "Rueckfrage als Entwurf", "Angebot als PDF", "Kunden-E-Mail als Entwurf",
 "Ihr Team prueft und sendet", "kein neues System", "setzt KI zur Auswertung der Anfragetexte ein".
 
@@ -147,8 +132,8 @@ gegen die Realitaet pruefen. Was nicht stimmt, wird gestrichen oder angepasst.
 - [ ] Rueckfrage und Kunden-E-Mail liegen als Entwurf im Postfach, bis ein Mitarbeiter sie prueft und selbst
       sendet. ANVERO sendet nicht selbst.
 - [ ] Unklare oder untypische Faelle werden gekennzeichnet und an einen Mitarbeiter uebergeben.
-- [ ] H1 (vom Inhaber bestaetigt, hier zur Dokumentation): "Standardangebote automatisch erstellen. Nur noch
-      pruefen und senden." Gilt ausschliesslich fuer die vom Betrieb vorab festgelegten Standardleistungen
+- [ ] H1 (vom Inhaber bestaetigt, hier zur Dokumentation): "Anfrage rein. Angebot fertig. Sie senden." (frueher: "Standardangebote automatisch erstellen. Nur noch
+      pruefen und senden."). Gilt ausschliesslich fuer die vom Betrieb vorab festgelegten Standardleistungen
       (z. B. Unterhaltsreinigung, Glasreinigung) bei vollstaendigen Angaben. Fehlen Angaben, liegt zuerst die
       Rueckfrage als Entwurf bereit, die der Mitarbeiter ebenfalls prueft und sendet. Sonderfaelle uebernimmt
       das Team manuell. Die Eingrenzung steht direkt in der Unterzeile unter der H1. Wenn sich Umfang oder
@@ -166,21 +151,25 @@ gegen die Realitaet pruefen. Was nicht stimmt, wird gestrichen oder angepasst.
       "Kein allgemeiner KI-Assistent". Nur wieder aufnehmen, wenn belegt.
 
 **Zeitersparnis und Geschwindigkeit (neu)**
-- [ ] Zeitangaben auf der Seite: Hero und Abschnitte enthalten keine Zeitzusage mehr. Uebrig sind nur die
-      Testdaten-Uhrzeiten in den drei Beispielablaeufen der Weiche (z. B. 09:14 / 09:16 / 09:20 / 11:02 / 11:04 / 11:10)
-      und die FAQ "Wie schnell liegt ein
-      Angebot bereit? In der Regel nach wenigen Minuten". In der Demo liegen Angebot oder Rueckfrage nach 1-2
-      Minuten bereit (Angabe des Inhabers). Beim Kunden haengt das von der Make-Abfragehaeufigkeit ab. Sicherstellen,
-      dass Kundenanbindungen genauso schnell laufen, sonst FAQ anpassen oder streichen.
+- [ ] Zeitangaben auf der Seite: Hero und Abschnitte enthalten keine Zeitzusage. Uebrig sind die Testdaten-Uhrzeiten
+      in den drei Beispielablaeufen der Weiche und die FAQ "Wie schnell liegt ein Angebot bereit?". Die Antwort sagt
+      jetzt: "Das haengt von der Anbindung Ihres Postfachs ab. In der Demo liegen ... nach wenigen Minuten bereit".
+      Gedeckt durch die Angabe des Inhabers (Demo: 1-2 Minuten). Beim Kunden haengt es von der
+      Make-Abfragehaeufigkeit ab. Falls Kundenanbindungen deutlich langsamer laufen, Antwort pruefen.
+- [ ] FAQ "Kann ANVERO falsche Preise erfinden?": Antwort lautet jetzt "ANVERO erfindet keine Preise. Die Angaben
+      werden nach Ihren hinterlegten Regeln verarbeitet. Ihr Team prueft jedes Angebot vor dem Senden." (kein
+      absolutes "Nein" mehr, weil die KI-Auswertung Angaben falsch lesen kann).
+- [ ] "Sonderfaelle erkennt ANVERO selbst" (Kontrolle, FAQ) bleibt, weil vom Inhaber bestaetigt. Falls in
+      Kundenanbindungen Sonderfaelle nicht zuverlaessig erkannt werden, abschwaechen.
 - [ ] Arbeitsteilung: Die acht Schritte stehen als Tabelle, gekennzeichnet als "Typischer Ablauf einer
       Standardanfrage". Bestaetigen, dass sie der Praxis in Gebaeudereinigungen entsprechen. Der Satz "7 von 8
       Arbeitsschritten uebernimmt ANVERO" wird bewusst nicht verwendet.
-- [ ] Zeitrechner: Besucher geben nur Standardangebote pro Monat und Minuten pro Angebot heute ein. Fuer Pruefen
-      und Senden mit ANVERO wird fest mit 5 Minuten gerechnet (Vorgabe des Inhabers: "wenige Minuten, abhaengig von
-      der Person"), nicht mehr anpassbar. Der Hinweis direkt unter dem Ergebnis nennt die 5 Minuten ausdruecklich als
-      Beispielwert. Weil der Wert nicht mehr anpassbar ist, ist er staerker eine eigene Aussage: einmal messen und
-      den Rechner vor dem Livegang rechtlich ansehen lassen (UWG, Irrefuehrung).
-
+- [ ] Zeitrechner: Zwei Eingaben (Standardangebote pro Monat, Minuten pro Angebot heute), jeweils Schieberegler
+      plus Zahlenfeld. Fuer Pruefen und Senden mit ANVERO wird fest mit 5 Minuten gerechnet (Vorgabe des Inhabers:
+      "wenige Minuten, abhaengig von der Person"), nicht einstellbar. Sichtbar ist nur das Ergebnis pro Monat, ohne
+      Rechenweg und ohne Jahreshochrechnung. Der Hinweis darunter nennt die 5 Minuten ausdruecklich als Beispielwert,
+      Rueckfragen und Sonderfaelle als nicht eingerechnet und schliesst eine Zusage aus. Weil der Wert fest ist, ist
+      er eine eigene Aussage: einmal messen und den Rechner vor dem Livegang rechtlich ansehen lassen (UWG).
 **Pilotangebot (Abschnitt "Pilotphase")**
 - [ ] "Vergünstigte Pilotkonditionen": Konditionen intern festlegen, bevor die erste Demo stattfindet.
       Auf der Website stehen keine Zahlen. Die Details werden in der Demo besprochen.
@@ -204,27 +193,21 @@ gegen die Realitaet pruefen. Was nicht stimmt, wird gestrichen oder angepasst.
       auf "20-Minuten-Demo buchen" aendern (`src/siteConfig.js`).
 
 **Oeffentlich sichtbar, aber noch offen (vor Livegang schliessen)**
-- [ ] Datenschutzerklaerung Abschnitt 6 (Calendly) enthaelt den Satz, dass Details nach rechtlicher
-      Pruefung ergaenzt werden. Vor dem Livegang durch geprueften Text ersetzen. Das Gleiche gilt fuer
-      "Stand: Oktober 2026".
-- [ ] Formular ohne Backend: Im Produktions-Build erscheint beim Absenden die Meldung, dass das Formular
-      derzeit nicht verfuegbar ist. Vor dem Livegang `VITE_FORM_ENDPOINT` einrichten oder das Formular
-      durch einen E-Mail-Link ersetzen.
+- [ ] `info@anvero.tech` steht auf der Website, das Postfach ist aber noch nicht eingerichtet. Vor dem Livegang
+      einrichten (Mailanbieter, DNS: MX, SPF, DKIM, DMARC) und mit einer Test-Mail pruefen.
 
-## Formular und Texte auf der Startseite
+## Kontaktwege und Texte auf der Startseite
 
+- [ ] Kein Kontaktformular. Kontaktwege: Calendly (primaer), E-Mail, Telefon. Unter dem Calendly-Button im
+      Demo-Bereich steht ein kurzer Hinweis auf die externe Calendly-Seite mit Link zur Datenschutzerklaerung.
 - [ ] Die Aussage zur Antwortzeit wurde entfernt. Nur wieder aufnehmen, wenn sie eingehalten wird.
-- [ ] **Formular-Backend fehlt.** Calendly und Formular bestehen nebeneinander. Das Formular ist bis zur
-      Einrichtung (`VITE_FORM_ENDPOINT`) nicht funktionsfaehig und darf nicht als funktionierend beworben
-      werden. Alternativ das Formular bis dahin ausblenden.
-- [ ] Der Text am Calendly-Button ("Online-Termin buchen") und der Hinweis "Sie erreichen uns auch direkt"
-      sind neutral formuliert. Keine Zusagen zu Antwort- oder Terminfristen ergaenzen, die nicht eingehalten werden.
-- [ ] Der Satz am Formular ("Wir verwenden Ihre Angaben, um Ihre Anfrage zu bearbeiten ...") ist bewusst
-      schlicht gehalten. Pruefen lassen, ob er ausreicht.
-- [ ] Produktaussagen auf der Seite ("Keine erfundenen Preise", "Kein Versand ohne Freigabe", "Jeder Schritt
-      nachvollziehbar") muessen dem tatsaechlichen Produkt entsprechen (Wettbewerbsrecht, UWG).
-- [ ] Beispieldaten in der Produktvorschau (z. B. "Mueller Immobilien", "Angebot 1048") sind erfundene
-      Demo-Daten und als "Beispielansicht mit Demo-Daten" gekennzeichnet. Das beibehalten.
+- [ ] Keine Zusagen zu Antwort- oder Terminfristen ergaenzen, die nicht eingehalten werden.
+- [ ] Produktaussagen auf der Seite ("Gesendet wird nur durch Ihr Team", "Preise nach Ihren hinterlegten Regeln",
+      "Fehlende Angaben werden nicht geraten", "Sonderfaelle bleiben bei Ihrem Team") muessen dem tatsaechlichen
+      Produkt entsprechen (Wettbewerbsrecht, UWG).
+- [ ] Beispieldaten im Hero ("Musterreinigung GmbH", "Beispiel GmbH", "Angebot Nr. 0001") und im Ablauf sind
+      erfundene Testdaten und als "Beispielangebot mit Testdaten" bzw. "Beispielablauf mit Testdaten"
+      gekennzeichnet. Das beibehalten. Gleiches gilt fuer das OG-Bild (`public/og-image.png`).
 
 ## Technik (Vercel und Betrieb)
 
@@ -236,16 +219,15 @@ gegen die Realitaet pruefen. Was nicht stimmt, wird gestrichen oder angepasst.
 - [ ] Alte Domains (`anvero.de`, `www.anvero.de`): Falls sie als Website geplant waren, bewusst
       weiterleiten oder abschalten. Als Website-URL wird sie im Projekt nirgends verwendet.
 - [ ] HTTPS und Zertifikat: Vercel stellt sie automatisch aus. Nach dem Livegang kontrollieren.
-- [ ] Umgebungsvariable `VITE_FORM_ENDPOINT` in Vercel (Production) setzen, **sobald** der Dienst feststeht.
+- [ ] Derzeit keine Umgebungsvariablen noetig (Formular entfernt, `.env.example` enthaelt nur einen Hinweis).
       Hinweis: Werte mit Praefix `VITE_` sind im Browser sichtbar. Keine Geheimnisse dort ablegen.
-- [ ] Spam-Schutz fuer das Formular auf Server-/Anbieterseite (Honeypot allein genuegt nicht).
 - [ ] Nach dem Deployment testen: `/`, `/impressum`, `/datenschutz` direkt aufrufen und neu laden,
       `/robots.txt`, `/sitemap.xml`, unbekannte URL (muss 404 liefern), Header (z. B. mit
       securityheaders.com).
 - [ ] Content-Security-Policy: Noch nicht gesetzt. Erst nach einem Test mit dem echten Build einfuehren
-      (Inline-Style im Hero, spaeter Formular-Endpoint und Calendly beachten).
+      (Inline-`style` fuer die Animationsverzoegerung im Ablauf braucht `style-src 'unsafe-inline'`; zuerst als `Content-Security-Policy-Report-Only` testen). HSTS nicht blind setzen, sondern nach der Domainverbindung den echten Header von Vercel pruefen.
 - [ ] Google Search Console und Bing Webmaster Tools: Domain verifizieren, Sitemap `https://anvero.tech/sitemap.xml` einreichen.
-- [ ] `public/favicon.svg`, `public/apple-touch-icon.png`, `public/og-image.png` bereitstellen.
+- [x] `public/favicon.svg`, `public/apple-touch-icon.png` (180x180), `public/og-image.png` (1200x630) angelegt (Logo "anvero." bzw. "a." auf Petrol, Hero-Text, Beispielangebot mit Testdaten). Nach dem Livegang Linkvorschau mit dem LinkedIn Post Inspector pruefen.
 - [ ] Prerendering einplanen: Impressum und Datenschutz werden aktuell erst im Browser per JavaScript
       aufgebaut (Titel und Canonical werden dort gesetzt). Fuer Crawler ohne JavaScript und
       fuer Link-Vorschauen waere statisches HTML besser.
