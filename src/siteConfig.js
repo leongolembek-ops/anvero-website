@@ -24,7 +24,7 @@ export const CONTACT = {
 
 /* Calendly-Buchungslink. Es werden nur Links akzeptiert, die mit "https://calendly.com/" beginnen.
    Datenschutzerklaerung um den Terminanbieter ergaenzen (siehe LEGAL-TODO.md). */
-const CALENDLY_URL = "https://calendly.com/leongolembek";
+const CALENDLY_URL = "https://calendly.com/leongolembek/20min";
 
 /* Beschriftung des Calendly-Buttons. Der Link oben ist der allgemeine Profil-Link, ein 20-Minuten-Termin
    ist nicht belegt. Erst auf "20-Minuten-Demo buchen" aendern, wenn in Calendly ein 20-Minuten-Termin
