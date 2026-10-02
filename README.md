@@ -89,18 +89,21 @@ Hero (`#top`) - E-Mail-Verlauf mit Weiche (`#ablauf`) - Zeitersparnis und Rechne
 (`#demo`). Navigation im Header: Ablauf, Zeitersparnis, Kontrolle, Pilotphase, FAQ. Alle Anker laufen ueber
 `/#...`, damit sie auch auf Unterseiten wie `/impressum` funktionieren.
 
-**E-Mail-Verlauf mit Weiche:** Oben drei kurze Felder fuer die Weiche (Alles da: Angebot als PDF und Kunden-E-Mail ·
-Etwas fehlt: Rueckfrage als Entwurf, "in diesem Beispiel" markiert · Sonderfall: manuelle Pruefung durch Ihr Team).
-Darunter sechs kurze Zeilen mit Uhrzeit (Testdaten): Kunde fragt an, ANVERO erkennt die Luecke, Sie senden die
-Rueckfrage, Kunde antwortet, ANVERO ordnet zu und erstellt das Angebot, Sie pruefen und senden. Kunde grau,
-ANVERO dunkel, Sie in Petrol, jeweils mit eigenem Symbol. Keine Karten, nur Haarlinien. Am Ende die
+**E-Mail-Verlauf mit Weiche (klickbar):** Hinweis "Waehlen Sie einen Fall, um den Ablauf zu sehen." und drei
+Auswahlkarten mit Kreis (Radiogruppe, per Klick und Pfeiltasten bedienbar): Alles da (Angebot als PDF und
+Kunden-E-Mail) · Etwas fehlt (Rueckfrage als Entwurf, vorausgewaehlt) · Sonderfall (manuelle Pruefung durch Ihr Team).
+Darunter der Ablauf des gewaehlten Falls als kurze Zeilen mit Uhrzeit (Testdaten), die sich nacheinander einblenden
+(`.flow-row` in `src/index.css`, bei reduzierter Bewegung ohne Animation). Feste Mindesthoehe, damit die Seite beim
+Umschalten nicht springt. Beispiel Sonderfall: "Reinigung nach einem Wasserschaden im Lager". Kunde grau, ANVERO
+dunkel, Sie in Petrol, jeweils mit eigenem Symbol. Keine Karten, nur Haarlinien. Am Ende die
 Vertrauenszeile (unveraendert): "Kein neues System. Keine unkontrollierten Sendungen. Ihr Team arbeitet im
 bestehenden Postfach und sendet nur, was geprueft wurde." Der fruehere Abschnitt "Drei Wege" ist entfallen.
 
 **Zeitersparnis und Rechner:** Ueberschrift "Weniger manuelle Schritte zwischen Anfrage und Angebot.", Text "Die
 wiederkehrenden Schritte uebernimmt ANVERO. Bei Ihrem Team bleiben Pruefen und Senden." Arbeitsteilung als Tabelle
 mit einer Zeile pro Schritt (Spalten Schritt, Heute, Mit ANVERO), gekennzeichnet als "Typischer Ablauf einer
-Standardanfrage". Letzte Zeile "Pruefen und senden" bleibt bei Ihrem Team (Petrol). Der Satz "7 von 8
+Standardanfrage". In der Spalte "Mit ANVERO" graue Etiketten "ANVERO", in der letzten Zeile "Pruefen und senden"
+ein Petrol-Etikett "Ihr Team". Der Satz "7 von 8
 Arbeitsschritten uebernimmt ANVERO" wird ausdruecklich nicht verwendet. Keine Balken, keine durchgestrichene Liste.
 Rechner mit zwei Zahlenfeldern (keine Schieberegler): Standardangebote pro Monat (30) und Minuten pro Angebot
 heute (45, inklusive Kalkulation, Angebot und E-Mail). Fuer Pruefen und Senden mit ANVERO wird fest mit 5 Minuten

@@ -167,7 +167,8 @@ gegen die Realitaet pruefen. Was nicht stimmt, wird gestrichen oder angepasst.
 
 **Zeitersparnis und Geschwindigkeit (neu)**
 - [ ] Zeitangaben auf der Seite: Hero und Abschnitte enthalten keine Zeitzusage mehr. Uebrig sind nur die
-      Testdaten-Uhrzeiten im Beispielverlauf (09:14 / 09:16 / 09:20 / 11:02 / 11:04 / 11:10) und die FAQ "Wie schnell liegt ein
+      Testdaten-Uhrzeiten in den drei Beispielablaeufen der Weiche (z. B. 09:14 / 09:16 / 09:20 / 11:02 / 11:04 / 11:10)
+      und die FAQ "Wie schnell liegt ein
       Angebot bereit? In der Regel nach wenigen Minuten". In der Demo liegen Angebot oder Rueckfrage nach 1-2
       Minuten bereit (Angabe des Inhabers). Beim Kunden haengt das von der Make-Abfragehaeufigkeit ab. Sicherstellen,
       dass Kundenanbindungen genauso schnell laufen, sonst FAQ anpassen oder streichen.

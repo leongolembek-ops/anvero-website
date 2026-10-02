@@ -100,21 +100,38 @@ function Hero() {
 
 /* ── Verlauf mit Weiche: kurz und ruhig ────────────────────────── */
 
+/* Weiche: drei Faelle, jeweils mit eigenem Beispielablauf.
+   Rollen: Anfragender (grau), ANVERO (Tinte), Sie und Ihr Team (Petrol). Uhrzeiten und Inhalte sind Testdaten. */
 const WAYS = [
-  ["Alles da", "Angebot als PDF und Kunden-E-Mail", false],
-  ["Etwas fehlt", "Rückfrage als Entwurf", true],
-  ["Sonderfall", "Manuelle Prüfung durch Ihr Team", false],
+  {
+    key: "alles", title: "Alles da", result: "Angebot als PDF und Kunden-E-Mail",
+    events: [
+      ["09:14", "customer", "Kunde fragt an: Unterhaltsreinigung fürs Büro, 1.200 m², 3× pro Woche, Mo, Mi, Fr ab 18 Uhr."],
+      ["09:16", "anvero", "ANVERO: Alle Angaben da. Angebot als PDF und Kunden-E-Mail liegen bereit."],
+      ["09:25", "team", "Sie prüfen und senden das Angebot."],
+    ],
+  },
+  {
+    key: "fehlt", title: "Etwas fehlt", result: "Rückfrage als Entwurf",
+    events: [
+      ["09:14", "customer", "Kunde fragt an: Unterhaltsreinigung fürs Büro, 1.200 m², 3× pro Woche."],
+      ["09:16", "anvero", "ANVERO: Reinigungszeiten fehlen. Die Rückfrage liegt als Entwurf bereit."],
+      ["09:20", "team", "Sie senden die Rückfrage."],
+      ["11:02", "customer", "Kunde antwortet: Montag, Mittwoch und Freitag ab 18 Uhr."],
+      ["11:04", "anvero", "ANVERO: Antwort zugeordnet. Angebot als PDF und Kunden-E-Mail liegen bereit."],
+      ["11:10", "team", "Sie prüfen und senden das Angebot."],
+    ],
+  },
+  {
+    key: "sonder", title: "Sonderfall", result: "Manuelle Prüfung durch Ihr Team",
+    events: [
+      ["09:14", "customer", "Kunde fragt an: Reinigung nach einem Wasserschaden im Lager."],
+      ["09:16", "anvero", "ANVERO: Keine festgelegte Standardleistung. Als Sonderfall an Ihr Team übergeben."],
+      ["09:30", "team", "Ihr Team prüft die Anfrage und erstellt das Angebot selbst."],
+    ],
+  },
 ];
-
-/* Rollen: Anfragender (grau), ANVERO (Tinte), Sie und Ihr Team (Petrol). Uhrzeiten sind Testdaten. */
-const EVENTS = [
-  ["09:14", "customer", "Kunde fragt an: Unterhaltsreinigung fürs Büro, 1.200 m², 3× pro Woche."],
-  ["09:16", "anvero", "ANVERO: Reinigungszeiten fehlen. Die Rückfrage liegt als Entwurf bereit."],
-  ["09:20", "team", "Sie senden die Rückfrage."],
-  ["11:02", "customer", "Kunde antwortet: Montag, Mittwoch und Freitag ab 18 Uhr."],
-  ["11:04", "anvero", "ANVERO: Antwort zugeordnet. Angebot als PDF und Kunden-E-Mail liegen bereit."],
-  ["11:10", "team", "Sie prüfen und senden das Angebot."],
-];
+const DEFAULT_WAY = 1; // "Etwas fehlt" zeigt Rueckfrage und Antwort und ist deshalb vorausgewaehlt
 const ROLE = {
   customer: { time: "text-av-muted", text: "text-av-body", icon: "mail" },
   anvero: { time: "text-av-ink", text: "text-av-ink", icon: "settings" },
@@ -122,6 +139,20 @@ const ROLE = {
 };
 
 function Flow() {
+  const [selected, setSelected] = useState(DEFAULT_WAY);
+  const radios = useRef([]);
+  const way = WAYS[selected];
+
+  /* Auswahlkarten als Radiogruppe: Pfeiltasten wechseln den Fall, nur die gewaehlte Karte ist per Tab erreichbar. */
+  const onKey = (e) => {
+    const dir = ["ArrowRight", "ArrowDown"].includes(e.key) ? 1 : ["ArrowLeft", "ArrowUp"].includes(e.key) ? -1 : 0;
+    if (!dir) return;
+    e.preventDefault();
+    const next = (selected + dir + WAYS.length) % WAYS.length;
+    setSelected(next);
+    radios.current[next]?.focus();
+  };
+
   return (
     <section id="ablauf" className="bg-white py-20 sm:py-28">
       <div className="mx-auto max-w-[1120px] px-5 lg:px-8">
@@ -132,27 +163,42 @@ function Flow() {
           Gesendet wird immer von Ihnen.
         </p>
 
-        <ul className="mt-10 grid max-w-3xl gap-3 sm:grid-cols-3">
-          {WAYS.map(([title, result, active]) => (
-            <li key={title} className={`rounded-[10px] px-4 py-3 ${active ? "border-[1.5px] border-av-ink" : "border border-av-line"}`}>
-              <p className="flex flex-wrap items-center gap-2 text-[15px] font-semibold text-av-ink">
-                {title}
-                {active && <span className="text-[12px] font-medium text-av-muted">· in diesem Beispiel</span>}
-              </p>
-              <p className="mt-1 text-[14px] leading-5 text-av-body">→ {result}</p>
-            </li>
-          ))}
-        </ul>
+        <p id="way-hint" className="mt-10 text-[14px] text-av-muted">Wählen Sie einen Fall, um den Ablauf zu sehen.</p>
+        <div role="radiogroup" aria-labelledby="way-hint" onKeyDown={onKey} className="mt-3 grid max-w-3xl gap-3 sm:grid-cols-3">
+          {WAYS.map((w, i) => {
+            const on = i === selected;
+            return (
+              <button key={w.key} type="button" role="radio" aria-checked={on} tabIndex={on ? 0 : -1}
+                ref={(el) => { radios.current[i] = el; }} onClick={() => setSelected(i)}
+                className={`flex items-start gap-3 rounded-[10px] px-4 py-3 text-left transition-colors focus:outline-none focus-visible:ring-[3px] focus-visible:ring-av-petrol ${
+                  on ? "border-[1.5px] border-av-ink bg-av-paper" : "border border-[#CBD2CF] bg-white hover:border-av-ink hover:bg-av-paper"
+                }`}>
+                <span aria-hidden="true" className={`mt-[3px] grid h-4 w-4 shrink-0 place-items-center rounded-full border-[1.5px] ${on ? "border-av-ink" : "border-av-muted"}`}>
+                  {on && <span className="h-2 w-2 rounded-full bg-av-ink" />}
+                </span>
+                <span>
+                  <span className="block text-[15px] font-semibold text-av-ink">{w.title}</span>
+                  <span className="mt-0.5 block text-[14px] leading-5 text-av-body">{w.result}</span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
 
-        <ol className="mt-10 max-w-3xl border-t border-av-line" aria-label="Beispielablauf mit Testdaten">
-          {EVENTS.map(([time, role, text]) => (
-            <li key={time} className="grid grid-cols-[3.25rem_1.25rem_minmax(0,1fr)] items-baseline gap-3 border-b border-av-line py-4">
-              <span className={`text-[14px] tabular-nums ${ROLE[role].time}`}>{time}</span>
-              <Icon name={ROLE[role].icon} size={16} className={`translate-y-[3px] ${ROLE[role].time}`} />
-              <span className={`text-[16px] leading-6 ${ROLE[role].text}`}>{text}</span>
-            </li>
-          ))}
-        </ol>
+        {/* Feste Mindesthoehe fuer den laengsten Fall, damit die Seite beim Umschalten nicht springt.
+            key={way.key} startet die Einblend-Animation bei jedem Wechsel neu. */}
+        <div className="mt-8 min-h-[36rem] max-w-3xl sm:min-h-[22rem]">
+          <ol key={way.key} className="border-t border-av-line" aria-label={`Beispielablauf mit Testdaten: ${way.title}`}>
+            {way.events.map(([time, role, text], i) => (
+              <li key={time} style={{ animationDelay: `${i * 120}ms` }}
+                className="flow-row grid grid-cols-[3.25rem_1.25rem_minmax(0,1fr)] items-baseline gap-3 border-b border-av-line py-4">
+                <span className={`text-[14px] tabular-nums ${ROLE[role].time}`}>{time}</span>
+                <Icon name={ROLE[role].icon} size={16} className={`translate-y-[3px] ${ROLE[role].time}`} />
+                <span className={`text-[16px] leading-6 ${ROLE[role].text}`}>{text}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
         <p className="mt-4 text-[12px] text-av-muted">Beispielablauf mit Testdaten.</p>
 
         <p className="mt-12 flex max-w-3xl items-start gap-3 text-[18px] font-medium leading-8 text-av-ink">
@@ -215,7 +261,11 @@ function TimeSaving() {
                 <tr key={s} className="border-t border-av-line">
                   <th scope="row" className={`py-3 pr-4 ${last ? "font-semibold text-av-petrol" : "font-normal text-av-ink"}`}>{s}</th>
                   <td className="py-3 text-av-muted">Ihr Team</td>
-                  <td className={`py-3 ${last ? "font-semibold text-av-petrol" : "font-medium text-av-ink"}`}>{last ? "Ihr Team" : "ANVERO"}</td>
+                  <td className="py-3">
+                    {last
+                      ? <span className="rounded-md bg-av-petrol px-2 py-0.5 text-[13px] font-semibold text-white">Ihr Team</span>
+                      : <span className="rounded-md bg-av-tag px-2 py-0.5 text-[13px] font-medium text-av-body">ANVERO</span>}
+                  </td>
                 </tr>
               );
             })}
